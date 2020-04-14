@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -11,7 +12,8 @@
   "dependencies": {
     "dockerode": "^3.2.0",
     "express": "^4.17.1",
-    "http-proxy": "^1.18.0",
+    "http-proxy-middleware": "^1.0.3",
+    "node-fetch": "^2.6.0",
     "uuid": "^7.0.3"
   }
 }

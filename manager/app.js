@@ -20,20 +20,54 @@ if (DOCKER_HOST && DOCKER_PORT) {
 // improts
 const express = require('express');
 const app = express();
-const httpProxy = require('http-proxy');
-const apiProxy = httpProxy.createProxyServer();
+const {createProxyMiddleware} = require('http-proxy-middleware');
 const Docker = require('dockerode');
 const {v4: uuidv4} = require('uuid');
+const fetch = require("node-fetch");
 
 docker = new Docker(dockerConfig);
 
-apiProxy.on('error', function (err, req, res) {
-    res.writeHead(500, {
-        'Content-Type': 'text/plain'
-    });
+function getGameId(str) {
+    var test = str.match(/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/g);
+    console.log('getGameid', str, test);
+    return test[0];
+}
 
-    res.end('Couldn\'t connect to your game');
-});
+const customRouter = function (req) {
+    const seemsWs = !req.protocol;
+    console.log('request', req.url, getGameId(req.url));
+    const gameName = GAME_CONTAINER_PREFIX + getGameId(req.url);
+    let newUrl = 'http://' + gameName + ":8443";
+
+    if (seemsWs) {
+        newUrl.replace('http', 'ws');
+    }
+    console.log('routing to', newUrl);
+    return newUrl;
+};
+
+const webSocketRouter = function (req) {
+    const gameName = GAME_CONTAINER_PREFIX + req.params.gameId;
+    let newUrl = 'ws://' + gameName + ":8443";
+    console.log('routing ws to', newUrl);
+    return newUrl;
+}
+
+const rewriteGamePAth = function (path, req) {
+    let newPath = path.replace('/game/' + getGameId(req.url), '/');
+    console.log('new Path', newPath);
+    return newPath;
+};
+
+const options = {
+    target: 'http://localhost:8000',
+    // ws: true,
+    router: customRouter,
+    logLevel: 'debug',
+    pathRewrite: rewriteGamePAth
+};
+
+const myProxy = createProxyMiddleware(options);
 
 /**
  * Checks the started games and if expired, the container will be stopped
@@ -47,7 +81,7 @@ async function retireExpiredGames() {
     console.log('running games', games.length);
     games.forEach(g => {
         let container = docker.getContainer(g.Id);
-        container.stop();
+        // container.stop();
     })
 }
 
@@ -77,43 +111,17 @@ function createNewGame(req, res) {
     res.send(gameName);
 }
 
-/**
- * Reverse proxy the game url to the game itself
- * @param req
- * @param res
- */
-async function routeToGame(req, res) {
-    if (req.params.gameId) {
-        const gameName = GAME_CONTAINER_PREFIX + req.params.gameId;
-
-        const listContainers = await docker.listContainers();
-        const game = listContainers.find(c => c.Names.indexOf(gameName) !== -1);
-        if (game) {
-            console.log(game);
-
-            apiProxy.web(req, res, {
-                target: 'http://' + gameName + ":8080",
-                ws: true
-            })
-        } else {
-            res.sendStatus(404);
-        }
-
-    } else {
-        res.sendStatus(404);
-    }
-}
-
 //clean games every hour
-setInterval(retireExpiredGames, 3600 * 1000);
+// setInterval(retireExpiredGames, 3600 * 1000);
+setInterval(retireExpiredGames, 30 * 1000);
 
 app.use(express.static('static'));
 
 app.get('/new-game', createNewGame);
-app.get('/game/:gameId/*', routeToGame);
+app.use('/game/:gameId', myProxy);
 
-app.listen(8080);
-
+const server = app.listen(8080);
+server.on('upgrade', myProxy.upgrade); // <-- subscribe to http 'upgrade'
 
 
 

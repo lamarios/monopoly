@@ -1,0 +1,33 @@
+{
+  "scripts": {
+    "dev": "parcel index.html --public-url ./ --out-dir ../static",
+    "build": "parcel build index.html --public-url ./ --out-dir ../static"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-react-app": "^6.1.0",
+    "less": "^3.11.1",
+    "parcel-bundler": "^1.12.2"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-pro": "^5.13.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-brands-svg-icons": "^5.12.1",
+    "@fortawesome/free-regular-svg-icons": "^5.12.1",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "@fortawesome/pro-solid-svg-icons": "^5.13.0",
+    "@fortawesome/react-fontawesome": "^0.1.8",
+    "react": "^16.8.4",
+    "react-addons-update": "^15.6.2",
+    "react-dom": "^16.8.4",
+    "react-router-dom": "^5.0.1",
+    "sprintf-js": "^1.1.2",
+    "uuid": "^7.0.3"
+  }
+}

@@ -105,3 +105,4 @@ dist
 /.idea/azureSettings.xml
 /.idea/
 /game/client/.npmrc
+/game/static/
