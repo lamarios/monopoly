@@ -104,3 +104,4 @@ dist
 .tern-port
 /.idea/azureSettings.xml
 /.idea/
+/game/client/.npmrc
