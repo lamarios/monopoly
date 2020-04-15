@@ -9,7 +9,6 @@ export default class Video extends React.Component {
     render() {
         return (<div className="video-chat">
             <h1>Video</h1>
-            <button onClick={rtcService.imHere}>Join video Chat</button>
             <div className={"video-container remotes"} id={"remotes"}>
                 <video id="localVideo" autoPlay muted></video>
             </div>

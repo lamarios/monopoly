@@ -12,6 +12,8 @@ const static = require('node-static');
 const file = new (static.Server)('./static');
 const gameService = require('./game').gameService;
 
+let lastActivity = Date.now();
+
 // Yes, TLS is required
 const serverConfig = https ? {
     key: fs.readFileSync(key),
@@ -36,8 +38,11 @@ const handleRequest = function (request, response) {
 
       }
     */
-
-    file.serve(request, response);
+    if (request.url === '/stats') {
+        response.end(JSON.stringify({lastActivity: lastActivity}));
+    } else {
+        file.serve(request, response);
+    }
 
 };
 
@@ -65,6 +70,7 @@ wss.on('connection', function (ws) {
 
             wss.broadcast(message);
         }
+        lastActivity = Date.now();
 
         // Broadcast any received message to all clients
     });

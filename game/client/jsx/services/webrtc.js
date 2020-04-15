@@ -29,6 +29,9 @@ export class RTC {
         } else {
             alert('Your browser does not support getUserMedia API');
         }
+
+        this.imHere();
+        setInterval(this.imHere, 60000);
     }
 
     getUserMediaSuccess = (stream) => {

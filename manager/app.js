@@ -5,7 +5,7 @@ const DOCKER_PORT = process.env.DOCKER_PORT;
 
 const DOCKER_NETWORK = process.env.DOCKER_NETWORK || 'bridge';
 const GAME_CONTAINER_PREFIX = process.env.GAME_CONTAINER_PREFIX || 'monopoly-game-';
-const MAX_GAMES = process.env.MAX_GAMES || 100;
+const MAX_GAMES = process.env.MAX_GAMES || 500;
 const GAME_IMAGE = process.env.GAME_IMAGE || 'gonzague/monopoly';
 
 let dockerConfig = {socketPath: DOCKER_SOCKET};
@@ -17,7 +17,7 @@ if (DOCKER_HOST && DOCKER_PORT) {
     }
 }
 
-// improts
+// imports
 const express = require('express');
 const app = express();
 const {createProxyMiddleware} = require('http-proxy-middleware');
@@ -27,13 +27,25 @@ const fetch = require("node-fetch");
 
 docker = new Docker(dockerConfig);
 
+let totalGames = 0;
+
+/**
+ * Extracts a game ID from a string
+ * @param str
+ * @returns {*|string}
+ */
 function getGameId(str) {
     var test = str.match(/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/g);
     console.log('getGameid', str, test);
     return test[0];
 }
 
-const customRouter = function (req) {
+/**
+ * Route reverse proxy url to the related monopoly game
+ * @param req
+ * @returns {string}
+ */
+function customRouter(req) {
     const seemsWs = !req.protocol;
     console.log('request', req.url, getGameId(req.url));
     const gameName = GAME_CONTAINER_PREFIX + getGameId(req.url);
@@ -46,15 +58,14 @@ const customRouter = function (req) {
     return newUrl;
 };
 
-const webSocketRouter = function (req) {
-    const gameName = GAME_CONTAINER_PREFIX + req.params.gameId;
-    let newUrl = 'ws://' + gameName + ":8443";
-    console.log('routing ws to', newUrl);
-    return newUrl;
-}
-
-const rewriteGamePAth = function (path, req) {
-    let newPath = path.replace('/game/' + getGameId(req.url), '/');
+/**
+ * Rewrites the path of the proxy
+ * @param path
+ * @param req
+ * @returns {string}
+ */
+function rewriteGamePAth(path, req) {
+    let newPath = path.replace('/game/' + getGameId(req.url), '/').replace('//', '/');
     console.log('new Path', newPath);
     return newPath;
 };
@@ -70,18 +81,53 @@ const options = {
 const myProxy = createProxyMiddleware(options);
 
 /**
+ * Gets a list of running game by inspecing the containers on the hosts that match the GAME_PREFIX
+ * @returns {Promise<*>}
+ */
+async function getRunningGames() {
+
+    const listContainers = await docker.listContainers();
+    let games = listContainers.filter(c => c.Names.some(n => n.indexOf(GAME_CONTAINER_PREFIX) !== -1));
+    return games;
+}
+
+/**
+ * Checks whether a game is expired by calling /stats on the container.
+ * if the container can't be reached it'll be terminated
+ * @param container
+ * @returns {Promise<boolean>}
+ */
+async function isGameExpired(container) {
+    const gameId = getGameId(container.Names.find(n => n.indexOf(GAME_CONTAINER_PREFIX) !== -1));
+    const stats = await fetch('http://' + GAME_CONTAINER_PREFIX + gameId + ':8443/stats')
+        .then(r => r.json())
+        .catch(e => console.log("Couldn't reach server"));
+
+    if (stats && stats.lastActivity) {
+        const now = Date.now();
+        return (now - stats.lastActivity) > 1000 * 60 * 60 * 24;
+    } else {
+        // if we  can't get the info, the game is expired
+        return true;
+    }
+}
+
+/**
  * Checks the started games and if expired, the container will be stopped
  */
 async function retireExpiredGames() {
     console.log('Checking running games');
 
-    const listContainers = await docker.listContainers();
-    const games = listContainers.filter(c => c.Names.some(n => n.indexOf(GAME_CONTAINER_PREFIX) !== -1));
+    const games = await getRunningGames();
 
     console.log('running games', games.length);
-    games.forEach(g => {
+    games.forEach(async g => {
         let container = docker.getContainer(g.Id);
         // container.stop();
+        if (await isGameExpired(g)) {
+            console.log('stopping', g.Names);
+            container.stop()
+        }
     })
 }
 
@@ -91,37 +137,65 @@ async function retireExpiredGames() {
  * @param res
  * @returns the game name
  */
-function createNewGame(req, res) {
+async function createNewGame(req, res) {
     console.log('creating new game');
     const gameName = uuidv4();
+    const games = await getRunningGames();
+    if (games.length < MAX_GAMES) {
+        docker.createContainer({
+            Image: GAME_IMAGE,
+            name: GAME_CONTAINER_PREFIX + gameName,
+            Env: [
+                "HTTP=true"
+            ],
+            HostConfig: {
+                NetworkMode: DOCKER_NETWORK,
+                AutoRemove: true
+            }
+        }).then(function (container) {
+            container.start();
+            totalGames++;
+        });
 
-    docker.createContainer({
-        Image: GAME_IMAGE,
-        name: GAME_CONTAINER_PREFIX + gameName,
-        Env: [
-            "HTTP=true"
-        ],
-        HostConfig: {
-            NetworkMode: DOCKER_NETWORK
-        }
-    }).then(function (container) {
-        container.start();
-    })
-
-    res.send(gameName);
+        res.send(gameName);
+    } else {
+        res.status(401);
+    }
 }
 
-//clean games every hour
-// setInterval(retireExpiredGames, 3600 * 1000);
-setInterval(retireExpiredGames, 30 * 1000);
+/**
+ * Get stats of monopoly manager
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+async function getStats(req, res) {
+    const games = await getRunningGames();
+    const current = games.length;
+    const total = current > totalGames ? current : totalGames;
+    totalGames = total;
+    res.send(JSON.stringify({
+        total: total,
+        current: games.length,
+        max: MAX_GAMES
+    }));
+}
 
-app.use(express.static('static'));
+console.log('Pulling ' + GAME_IMAGE)
+docker.pull(GAME_IMAGE).then(s => {
+        console.log('Pull compete, starting server');
+        //clean games every hour
+        // setInterval(retireExpiredGames, 3600 * 1000);
+        setInterval(retireExpiredGames, 10 * 60 * 1000);
 
-app.get('/new-game', createNewGame);
-app.use('/game/:gameId', myProxy);
+        app.use(express.static('static'));
 
-const server = app.listen(8080);
-server.on('upgrade', myProxy.upgrade); // <-- subscribe to http 'upgrade'
+        app.get('/new-game', createNewGame);
+        app.get('/stats', getStats);
+        app.use('/game/:gameId', myProxy);
 
-
+        const server = app.listen(8080);
+        server.on('upgrade', myProxy.upgrade); // <-- subscribe to http 'upgrade'
+    }
+);
 
