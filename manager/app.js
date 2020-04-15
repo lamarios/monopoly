@@ -17,6 +17,19 @@ if (DOCKER_HOST && DOCKER_PORT) {
     }
 }
 
+// HTTPS or not stuff
+
+const key = process.env.HTTP_TLS_KEY || 'key.pem';
+const cert = process.env.HTTP_TLS_CERTIFICATE || 'cert.pem';
+const USE_HTTPS = process.env.HTTP !== "true";
+
+const fs = require('fs');
+const http = USE_HTTPS ? require('https') : require('http');
+const serverConfig = USE_HTTPS ? {
+    key: fs.readFileSync(key),
+    cert: fs.readFileSync(cert),
+} : {}
+
 // imports
 const express = require('express');
 const app = express();
@@ -194,8 +207,14 @@ docker.pull(GAME_IMAGE).then(s => {
         app.get('/stats', getStats);
         app.use('/game/:gameId', myProxy);
 
-        const server = app.listen(8080);
-        server.on('upgrade', myProxy.upgrade); // <-- subscribe to http 'upgrade'
+        const httpsServer = http.createServer(serverConfig, app);
+        httpsServer.listen(8080, '0.0.0.0');
+        httpsServer.on('upgrade', myProxy.upgrade); // <-- subscribe to http 'upgrade'
+
+        console.log('Server running. Visit http' + (USE_HTTPS ? "s" : "") + '://localhost:8080 in Firefox/Chrome.\n\n\
+Some important notes:\n\
+  * Some browsers or OSs may not allow the webcam to be used by multiple pages at once. You may need to use two different browsers or machines.\n'
+        );
     }
 );
 

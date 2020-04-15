@@ -30,18 +30,17 @@ export class RTC {
             alert('Your browser does not support getUserMedia API');
         }
 
-        this.imHere();
-        setInterval(this.imHere, 60000);
     }
 
     getUserMediaSuccess = (stream) => {
         console.log('getusermediasuccess', this);
         this.localStream = stream;
         this.localVideo.srcObject = stream;
+        setInterval(this.imHere, 10000);
     }
 
     imHere = () => {
-
+        console.log('pinging');
         this.serverConnection.send(JSON.stringify({
             'type': 'ping',
             'from': this.myUUid
