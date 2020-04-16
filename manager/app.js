@@ -200,6 +200,11 @@ docker.pull(GAME_IMAGE).then(s => {
         //clean games every hour
         // setInterval(retireExpiredGames, 3600 * 1000);
         setInterval(retireExpiredGames, 10 * 60 * 1000);
+        // pulling the game every 24 hours
+        setInterval(() => {
+            console.log('Pulling ' + GAME_IMAGE)
+            docker.pull(GAME_IMAGE).then(s => console.log('pull complete'));
+        }, 1000 * 60 * 60 * 24)
 
         app.use(express.static('static'));
 
@@ -213,7 +218,8 @@ docker.pull(GAME_IMAGE).then(s => {
 
         console.log('Server running. Visit http' + (USE_HTTPS ? "s" : "") + '://localhost:8080 in Firefox/Chrome.\n\n\
 Some important notes:\n\
-  * Some browsers or OSs may not allow the webcam to be used by multiple pages at once. You may need to use two different browsers or machines.\n'
+  * Some browsers or OSs may not allow the webcam to be used by multiple pages at once. You may need to use two different browsers or machines.\n\
+  * Some browsers may not allow the webcam and microphone to work on a non secure connection\n'
         );
     }
 );

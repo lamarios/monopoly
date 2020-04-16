@@ -9,6 +9,7 @@ import SelectPlayerDialog from "./SelectPlayerDialog";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {rtcService} from "./services/webrtc";
+import Settings from "./Settings";
 
 const MAX_LOGS = 200;
 
@@ -18,6 +19,7 @@ export default class App extends React.Component {
         super(props)
         this.state = {
             logs: [],
+            chat: [],
             cardToShow: null,
         };
     }
@@ -41,6 +43,8 @@ export default class App extends React.Component {
             this.setState({game: game});
         } else if (data.type === 'log') {
             this.setState({logs: data.message});
+        } else if (data.type === 'chat') {
+            this.setState({chat: data.message});
         } else if (data.type === 'cardDrawn') {
             this.setState({
                 cardToShow: {
@@ -49,6 +53,8 @@ export default class App extends React.Component {
                     type: data.cardType,
                 }
             });
+        } else if (data.type === 'newGame') {
+            gameService.currentPlayer = null;
         } else {
             rtcService.gotMessageFromServer(message);
         }
@@ -59,10 +65,11 @@ export default class App extends React.Component {
             const showPlayerDialog = gameService.currentPlayer === null;
             const card = this.state.cardToShow;
             return (<div>
+                <Settings game={this.state.game} logs={this.state.logs} chat={this.state.chat}/>
                 <div className="game">
                     <Board game={this.state.game}/>
                     <Logs logs={this.state.logs}/>
-                    <Video game={this.state.game}/>
+                    <Video game={this.state.game} chat={this.state.chat}/>
                     <Players game={this.state.game}/>
                 </div>
 

@@ -94,6 +94,10 @@ class GameService {
         }
     }
 
+    loadGame = (game) => {
+        this.sendToWs('loadGame', {game: game});
+    }
+
     sendToWs = (command, object) => {
         this.ws.send(JSON.stringify({type: 'game', command: command, params: object, from: this.currentPlayer}));
     }

@@ -43,14 +43,14 @@ export default class SelectPlayerDialog extends React.Component {
         return (<Dialog>
             <div className="select-player-dialog">
                 <div className="select-player">
-                    <h1>Select Player</h1>
+                    <h1>Play as</h1>
                     {availablePlayers.map(p => <div key={p.id} onClick={() => this.selectPlayer(p)} className="player">
                         <Token token={p.token}/>
                         {p.name}
                     </div>)}
                 </div>
                 {!this.props.game.started && <div className="new-player">
-                    <h3>Add new Player</h3>
+                    <h3>Or create a Player</h3>
                     <div>
                         <input type="text" placeholder="Player name" value={this.state.newPlayer.name}
                                onChange={this.setPlayerName}/>

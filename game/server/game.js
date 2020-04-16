@@ -20,6 +20,7 @@ function shuffle(array) {
 
 class GameService {
     logs = [];
+    chat = [];
     newGame = () => {
         return {
             dice: [3, 6],
@@ -679,9 +680,30 @@ class GameService {
             case 'drawCard':
                 this.drawCard(params.type, player);
                 break;
+            case 'loadGame':
+                this.loadGame(params.game, player);
+                break;
+            case 'chat':
+                this.addToChat(params.message, player);
+                break;
         }
 
         return {type: 'game', game: this.game};
+    }
+
+    loadGame = (game, player) => {
+        //removing keys that are not supposed to exist
+        this.sendLog(player.name + ' is loading a saved game');
+        Object.keys(game.game).forEach(k => {
+            if (!this.game[k]) {
+                delete game.game[k];
+            }
+        });
+
+        this.game = {...this.newGame(), ...game.game};
+        this.logs = game.logs || [];
+        this.chat = game.chat || [];
+        this.ws.broadcast(JSON.stringify({type: 'newGame', game: this.game}));
     }
 
     drawCard = (type, player) => {
@@ -937,13 +959,26 @@ class GameService {
     sendLog = (message) => {
         const date = new Date();
         message = "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "] " + message;
-        this.logs.unshift(message);
+        this.logs.push(message);
 
         if (this.logs.length > 200) {
-            this.logs.pop();
+            this.logs.shift();
         }
 
         this.ws.broadcast(JSON.stringify({type: 'log', message: this.logs}));
+    }
+
+    addToChat = (message, player) => {
+        const date = new Date();
+        message = "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "] " + player.name + ": " + message;
+        message.replace('<', '&lt;').replace('>', '&gt;');
+        this.chat.push(message);
+
+        if (this.chat.length > 200) {
+            this.chat.shift();
+        }
+
+        this.ws.broadcast(JSON.stringify({type: 'chat', message: this.chat}));
     }
 
     rollDice = (times, max, from) => {

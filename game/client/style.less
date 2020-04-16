@@ -32,7 +32,7 @@
 
 .game {
   display: grid;
-  grid-template-areas: 'board board board  video' 'board board board  video' 'board board board video' 'board board board logs ' 'players players  players players';
+  grid-template-areas: 'board board board video' 'board board board video' 'board board board video' 'board board board logs ' 'players players players players';
 }
 
 .card-overlay {
@@ -106,6 +106,16 @@
       margin: 10px;
     }
   }
+
+  .chat {
+    height: 150px;
+    overflow-y: auto;
+
+    p {
+      margin: 0;
+      font-size: small;
+    }
+  }
 }
 
 .logs {
@@ -116,7 +126,7 @@
   }
 
   .text {
-    height: 300px;
+    height: 150px;
     overflow-y: auto;
 
     p {
@@ -125,6 +135,7 @@
     }
   }
 }
+
 
 .player-list {
   grid-area: players;
@@ -652,6 +663,34 @@
       .note {
         margin: 5px;
       }
+    }
+  }
+}
+
+
+.game-settings {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  ul {
+    list-style: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0px 8px 32px 12px rgba(0, 0, 0, 0.61);
+    background-color: white;
+    width: 200px;
+    border-radius: 5px;
+
+    li {
+      cursor: pointer;
+      display: block;
+      border-bottom: 1px solid #aaa;
+      padding: 10px 20px;
+      box-sizing: border-box;
     }
   }
 }
