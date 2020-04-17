@@ -21,14 +21,17 @@ export default class PlayerBoard extends React.Component {
                     <div className="notes">
                         {notes.map(k => <div key={k} className="noteStack">
                                 <Note value={k}/>
-                                x{player.notes[k]}
+                                <small>x{player.notes[k]}</small>
                             </div>
                         )}
+                    </div>
+                    <div>
                         {(gameService.currentPlayer === player.id) &&
                         <button onClick={() => this.setState({sendMoneyDialog: true})}>Send money to player /
                             bank</button>}
                         {(player.id === 1) &&
-                        <button onClick={() => this.setState({sendMoneyDialog: true})}>Take money from bank</button>}
+                        <button onClick={() => this.setState({sendMoneyDialog: true})}>Take money from
+                            bank</button>}
                     </div>
                 </div>
                 <div>

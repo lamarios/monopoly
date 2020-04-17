@@ -5,16 +5,16 @@
 @cardTranslateX: 35px;
 
 @cardTextSize: 11px;
-@colorHeight: 20px;
+@colorHeight: 25px;
 
-@chanceIconSize: 30px;
+@chanceIconSize: 40px;
 @communityIconSize: 20px;
-@cornerIconSize: 25px;
-@stationIconSize: 15px;
+@cornerIconSize: 35px;
+@stationIconSize: 25px;
 @houseIconSize: 7px;
 @houseSize: 17px;
 
-@boardWidth: 800px;
+@boardWidth: 950px;
 
 @diceSize: 40px;
 @diceDotSize: 7px;
@@ -41,7 +41,10 @@ h3 {
 
 .game {
   display: grid;
-  grid-template-areas: 'board board players logs' 'board board players video' 'board board players video' 'board board players video'
+  grid-template-areas: 'board board players logs' 'board board players video' 'board board players video' 'board board players video';
+
+  grid-template-columns: repeat(2, calc(@boardWidth / 2)) repeat(2, 1fr);
+  grid-template-rows: repeat(4, calc(@boardWidth / 4));
 
 }
 
@@ -108,7 +111,6 @@ h3 {
 
   .video-container {
     display: grid;
-    width: 300px;
     grid-template-columns: 50% 50%;
 
     video {
@@ -117,7 +119,7 @@ h3 {
       cursor: pointer;
       transition: all 0.25s;
       width: 100%;
-      height: 115px;
+      height: 150px;
 
       //&:hover {
       //  width: 100%;
@@ -132,15 +134,13 @@ h3 {
 
     p {
       margin: 0;
-      font-size: small;
+      font-size: 14px;
     }
   }
 }
 
 .logs {
   grid-area: logs;
-  width: 300px;
-  height: 200px;
 
   .text {
     height: 150px;
@@ -148,7 +148,7 @@ h3 {
 
     p {
       margin: 0;
-      font-size: small;
+      font-size: 14px;
     }
   }
 }
@@ -217,9 +217,10 @@ h3 {
   width: @boardWidth;
   height: @boardWidth;
   display: grid;
-  grid-template-columns: repeat(13, calc(100% / 13));
-  grid-template-rows: repeat(13, calc(100% / 13));
-  grid-template-areas: 'p20 p20 p21 p22 p23 p24 p25 p26 p27 p28 p29 p30 p30' 'p20 p20 p21 p22 p23 p24 p25 p26 p27 p28 p29 p30 p30' 'p19 p19 e e e e e e e e e p31 p31' 'p18 p18 e e e e e e e e e p32 p32' 'p17 p17 e e e e e e e e e p33 p33' 'p16 p16 e e e e e e e e e p34 p34' 'p15 p15 e e e e e e e e e p35 p35' 'p14 p14 e e e e e e e e e p36 p36' 'p13 p13 e e e e e e e e e p37 p37' 'p12 p12 e e e e e e e e e p38 p38' 'p11 p11 e e e e e e e e e p39 p39' 'p10 p10 p9 p8 p7 p6 p5 p4 p3 p2 p1 p0 p0' 'p10 p10 p9 p8 p7 p6 p5 p4 p3 p2 p1 p0 p0';
+  grid-template-columns: repeat(24, 1fr);
+  grid-template-rows: repeat(24, 1fr);
+  //grid-template-areas: 'p20 p20 p21 p22 p23 p24 p25 p26 p27 p28 p29 p30 p30' 'p20 p20 p21 p22 p23 p24 p25 p26 p27 p28 p29 p30 p30' 'p19 p19 e e e e e e e e e p31 p31' 'p18 p18 e e e e e e e e e p32 p32' 'p17 p17 e e e e e e e e e p33 p33' 'p16 p16 e e e e e e e e e p34 p34' 'p15 p15 e e e e e e e e e p35 p35' 'p14 p14 e e e e e e e e e p36 p36' 'p13 p13 e e e e e e e e e p37 p37' 'p12 p12 e e e e e e e e e p38 p38' 'p11 p11 e e e e e e e e e p39 p39' 'p10 p10 p9 p8 p7 p6 p5 p4 p3 p2 p1 p0 p0' 'p10 p10 p9 p8 p7 p6 p5 p4 p3 p2 p1 p0 p0';
+  grid-template-areas: 'p20 p20 p20 p21 p21 p22 p22 p23 p23 p24 p24 p25 p25 p26 p26 p27 p27 p28 p28 p29 p29 p30 p30 p30' 'p20 p20 p20 p21 p21 p22 p22 p23 p23 p24 p24 p25 p25 p26 p26 p27 p27 p28 p28 p29 p29 p30 p30 p30' 'p20 p20 p20 p21 p21 p22 p22 p23 p23 p24 p24 p25 p25 p26 p26 p27 p27 p28 p28 p29 p29 p30 p30 p30' 'p19 p19 p19 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p31 p31 p31' 'p19 p19 p19 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p31 p31 p31' 'p18 p18 p18 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p32 p32 p32' 'p18 p18 p18 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p32 p32 p32' 'p17 p17 p17 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p33 p33 p33' 'p17 p17 p17 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p33 p33 p33' 'p16 p16 p16 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p34 p34 p34' 'p16 p16 p16 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p34 p34 p34' 'p15 p15 p15 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p35 p35 p35' 'p15 p15 p15 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p35 p35 p35' 'p14 p14 p14 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p36 p36 p36' 'p14 p14 p14 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p36 p36 p36' 'p13 p13 p13 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p37 p37 p37' 'p13 p13 p13 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p37 p37 p37' 'p12 p12 p12 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p38 p38 p38' 'p12 p12 p12 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p38 p38 p38' 'p11 p11 p11 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p39 p39 p39' 'p11 p11 p11 e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   e   p39 p39 p39' 'p10 p10 p10 p9  p9  p8  p8  p7  p7  p6  p6  p5  p5  p4  p4  p3  p3  p2  p2  p1  p1  p0  p0  p0' 'p10 p10 p10 p9  p9  p8  p8  p7  p7  p6  p6  p5  p5  p4  p4  p3  p3  p2  p2  p1  p1  p0  p0  p0' 'p10 p10 p10 p9  p9  p8  p8  p7  p7  p6  p6  p5  p5  p4  p4  p3  p3  p2  p2  p1  p1  p0  p0  p0';
 }
 
 .board-row {
@@ -475,19 +476,34 @@ h3 {
 
 .jail {
   position: relative;
+  display: grid;
+  grid-template-areas: 'visit-left cell cell ' 'visit-left cell cell '  'e visit-bottom visit-bottom';
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 
   .cell {
+    grid-area: cell;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
-    position: absolute;
-    width: 80%;
-    height: 80%;
-    top: 0;
-    right: 0;
     background-color: orange;
-    color: white;
-    text-align: center;
-    padding-top: 10px;
     font-size: @cornerIconSize;
+  }
+
+  .visit-left, .visit-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .visit-left {
+    grid-area: visit-left;
+    writing-mode: vertical-lr;
+  }
+
+  .visit-bottom {
+    grid-area: visit-bottom;
   }
 }
 
@@ -647,6 +663,10 @@ h3 {
 
     .note {
       margin: 5px;
+    }
+
+    small {
+      font-size: 14px;
     }
   }
 
