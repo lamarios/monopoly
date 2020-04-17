@@ -31,7 +31,7 @@ export default class Utility extends React.Component {
         }
 
         return (
-            <div className={"utility board-card " + this.props.boardPos + " " + (opened ? "opened" : "")}
+            <div className={"utility grid-area-"+this.props.position+" board-card " + this.props.boardPos + " " + (opened ? "opened" : "")}
                  onClick={() => this.setState({opened: true})}>
 
                 {opened && <a className="close" onClick={(e) => {
@@ -40,7 +40,7 @@ export default class Utility extends React.Component {
                 }}><FontAwesomeIcon icon={faTimesCircle}/></a>}
 
                 <div className="title">{utility.title}</div>
-                <div className="icon">
+                <div className="icon body">
 
                     {utility.type === 'water' && <FontAwesomeIcon icon={faFaucet}/>}
                     {utility.type === 'electricity' && <FontAwesomeIcon icon={faLightbulbOn}/>}

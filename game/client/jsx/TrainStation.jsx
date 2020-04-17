@@ -29,7 +29,7 @@ export default class TrainStation extends React.Component {
             canSend = permissions.canSend;
         }
 
-        return (<div className={"train-station board-card " + this.props.boardPos + " " + (opened ? "opened" : "")}
+        return (<div className={"train-station board-card grid-area-"+this.props.position+" " + this.props.boardPos + " " + (opened ? "opened" : "")}
                      onClick={() => this.setState({opened: true})}>
             {opened && <a className="close" onClick={(e) => {
                 this.setState({opened: false});

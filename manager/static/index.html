@@ -1,18 +1,24 @@
 <html>
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <title>Monopoly game launcher</title>
     <link rel="stylesheet" type="text/css" href="index.css">
+
+
 </head>
 <body>
-<h1>Monopoly game launcher</h1>
-<p>Click the button below to create a new Monopoly game, games will automatically be deleted after 24 hours of
-    inactivity. Don't forget to save your games !</p>
-<div id="new-game-container">
-    <button id="new-game">Create new game</button>
-    <div id="new-game-url"></div>
+<h1>Monopoly Game Launcher</h1>
+<div class="container">
+    <div class="dialog">
+        <p>Click the button below to create a new Monopoly game. Games will automatically be deleted after 24 hours of
+            inactivity. <br /><br />Don't forget to save your games !</p>
+        <div id="new-game-container">
+            <button id="new-game">Create new game</button>
+            <div id="new-game-url"></div>
+        </div>
+        <div id="stats"></div>
+    </div>
 </div>
-<div id="stats"></div>
 <script type="text/javascript" src="index.js"></script>
-
 </body>
 </html>

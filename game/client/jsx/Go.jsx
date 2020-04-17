@@ -5,7 +5,7 @@ import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 export default class Go extends React.Component{
 
     render() {
-        return (<div className={"go corner-card " + this.props.boardPos}>
+        return (<div className={"go corner-card grid-area-0 " + this.props.boardPos}>
             <div className="container">
                 <div>Collect $200 salary as you pass</div>
                 <div>GO</div>

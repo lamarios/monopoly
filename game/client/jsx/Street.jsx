@@ -61,7 +61,7 @@ export default class Street extends React.Component {
         }
 
         return (
-            <div className={"street board-card " + this.props.boardPos + " " + (opened ? "opened" : "")}
+            <div className={"street board-card grid-area-"+this.props.position+" " + this.props.boardPos + " " + (opened ? "opened" : "")}
                  onClick={() => this.setState({opened: true})}>
                 {opened && <a className="close" onClick={(e) => {
                     this.setState({opened: false});

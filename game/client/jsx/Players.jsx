@@ -12,7 +12,7 @@ export default class Players extends React.Component {
             return gameService.scorePlayerForSorting(p1) - gameService.scorePlayerForSorting(p2);
         });
         return (<div className="player-list">
-            Players
+            <h3>Players</h3>
             <div className="player-tabs">
                 {players.map(p => <div key={p.id}
                                        onClick={() => this.setState({selected: p.id})}

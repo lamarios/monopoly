@@ -5,7 +5,7 @@ import {gameService} from "./services/GameService";
 export default class Video extends React.Component {
 
     state = {
-        chatInput: ''
+        chatInput: '',
     }
 
     componentDidMount() {
@@ -32,7 +32,7 @@ export default class Video extends React.Component {
 
     render() {
         return (<div className="video-chat">
-            <h1>Video</h1>
+            <h3>Video</h3>
             <div className={"video-container remotes"} id={"remotes"}>
                 <video id="localVideo" autoPlay muted></video>
             </div>

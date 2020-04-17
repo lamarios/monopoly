@@ -5,7 +5,7 @@ import {faRingsWedding} from "@fortawesome/pro-solid-svg-icons";
 export default class SuperTax extends React.Component{
 
     render() {
-        return (<div className={"super-tax board-card " + this.props.boardPos}>
+        return (<div className={"super-tax grid-area-"+this.props.position+" board-card " + this.props.boardPos}>
             <div className="title">Super Tax</div>
             <div className="icon">
                 <FontAwesomeIcon icon={faRingsWedding} />

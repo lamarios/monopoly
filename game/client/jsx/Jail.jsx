@@ -5,7 +5,7 @@ import {faAngry} from "@fortawesome/free-solid-svg-icons";
 export default class Jail extends React.Component{
 
     render() {
-        return (<div className={"jail corner-card " + this.props.boardPos}>
+        return (<div className={"jail grid-area-10 corner-card "}>
             <div className="cell">
                 <FontAwesomeIcon icon={faAngry} />
             </div>

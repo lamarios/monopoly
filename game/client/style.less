@@ -1,23 +1,23 @@
-@cardWidth: 76px;
+@cardWidth: 7.6%;
 @cardHeight: 100px;
 
-@cardTranslateY: 63px;
-@cardTranslateX: 38px;
+@cardTranslateY: 45px;
+@cardTranslateX: 35px;
 
 @cardTextSize: 11px;
 @colorHeight: 20px;
 
-@chanceIconSize: 50px;
-@communityIconSize: 40px;
-@cornerIconSize: 50px;
-@stationIconSize: 40px;
+@chanceIconSize: 30px;
+@communityIconSize: 20px;
+@cornerIconSize: 25px;
+@stationIconSize: 15px;
 @houseIconSize: 7px;
 @houseSize: 17px;
 
-@boardWidth: calc(@cardWidth * 9 + @cardHeight * 2);
+@boardWidth: 800px;
 
-@diceSize: 50px;
-@diceDotSize: 8px;
+@diceSize: 40px;
+@diceDotSize: 7px;
 
 @primaryColor: #333333;
 
@@ -29,10 +29,20 @@
 
 @cardStackWidth: 150px;
 @cardStackHeight: 75px;
+body {
+  font-family: 'Open Sans', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+h3 {
+  margin: 0 0 10px 0;
+}
 
 .game {
   display: grid;
-  grid-template-areas: 'board board board video' 'board board board video' 'board board board video' 'board board board logs ' 'players players players players';
+  grid-template-areas: 'board board players logs' 'board board players video' 'board board players video' 'board board players video'
+
 }
 
 .card-overlay {
@@ -95,15 +105,24 @@
 }
 
 .video-chat {
+
   .video-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    width: 300px;
+    grid-template-columns: 50% 50%;
 
     video {
-      width: 200px;
       background-color: black;
-      height: 150px;
-      margin: 10px;
+      margin: 1px;
+      cursor: pointer;
+      transition: all 0.25s;
+      width: 100%;
+      height: 115px;
+
+      //&:hover {
+      //  width: 100%;
+      //  height: auto;
+      //}
     }
   }
 
@@ -120,10 +139,8 @@
 
 .logs {
   grid-area: logs;
-
-  h3 {
-    margin: 0 0 10px 0;
-  }
+  width: 300px;
+  height: 200px;
 
   .text {
     height: 150px;
@@ -139,9 +156,10 @@
 
 .player-list {
   grid-area: players;
+  width: 400px;
 }
 
-.video {
+.video-chat {
   grid-area: video;
 }
 
@@ -198,6 +216,10 @@
   background-color: rgba(176, 255, 140, 0.64);
   width: @boardWidth;
   height: @boardWidth;
+  display: grid;
+  grid-template-columns: repeat(13, calc(100% / 13));
+  grid-template-rows: repeat(13, calc(100% / 13));
+  grid-template-areas: 'p20 p20 p21 p22 p23 p24 p25 p26 p27 p28 p29 p30 p30' 'p20 p20 p21 p22 p23 p24 p25 p26 p27 p28 p29 p30 p30' 'p19 p19 e e e e e e e e e p31 p31' 'p18 p18 e e e e e e e e e p32 p32' 'p17 p17 e e e e e e e e e p33 p33' 'p16 p16 e e e e e e e e e p34 p34' 'p15 p15 e e e e e e e e e p35 p35' 'p14 p14 e e e e e e e e e p36 p36' 'p13 p13 e e e e e e e e e p37 p37' 'p12 p12 e e e e e e e e e p38 p38' 'p11 p11 e e e e e e e e e p39 p39' 'p10 p10 p9 p8 p7 p6 p5 p4 p3 p2 p1 p0 p0' 'p10 p10 p9 p8 p7 p6 p5 p4 p3 p2 p1 p0 p0';
 }
 
 .board-row {
@@ -215,28 +237,70 @@
 
 }
 
+.generate-grid(@n, @i:0) when (@i =< @n) {
+  &.grid-area-@{i} {
+    @p: ~"p@{i}";
+    grid-area: @p;
+  }
+  .generate-grid(@n, (@i + 1));
+}
+
+.generate-grid(39);
+
+
 .board-card {
   position: relative;
-  width: @cardWidth;
-  height: @cardHeight;
+  //width: @cardWidth;
+  //height: @cardHeight;
   border: 1px solid black;
   box-sizing: border-box;
   font-size: @cardTextSize;
   cursor: pointer;
-  transition: background-color 0.15s ease-in-out;
+
+
+  display: flex;
+  flex-direction: column;
+
+  &.left, &.right {
+    //flex-direction: row;
+    writing-mode: vertical-rl;
+
+    .icon svg {
+      transform-origin: center;
+      transform: rotate(90deg);
+    }
+
+    .color {
+      height: auto;
+      width: @colorHeight;
+      border-bottom: none;
+      border-left: 1px solid black;
+    }
+  }
+
+  &.right {
+    transform: rotate(180deg);
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
 
   &.opened {
-    width: calc(@cardWidth * 4);
-    height: calc(@cardHeight * 5);
-    font-size: calc(@cardTextSize * 2);
+    width: 300px !important;
+    height: 500px !important;
+    font-size: 18px !important;
     background-color: white;
     position: fixed;
     z-index: 100;
     top: 50px;
-    left: calc(50% - @cardWidth * 4 / 2);
-    margin: auto;
+    left: calc(50% - 150px);
     transform: none !important;
     box-shadow: 0px 8px 32px 12px rgba(0, 0, 0, 0.61);
+    writing-mode: unset !important;
 
     .close {
       position: absolute;
@@ -256,10 +320,17 @@
 
     .icon {
       flex-grow: 0;
+
+      svg {
+        transform: none !important;
+      }
     }
 
     .color {
       height: calc(@colorHeight * 2) !important;
+      border-left: none !important;
+      border-bottom: 1px solid black !important;
+      width: 300px !important;
 
       .house, .hotel {
         width: calc(@colorHeight * 2 - 10px) !important;
@@ -277,24 +348,13 @@
   &.top {
     transform: rotateZ(180deg);
   }
-
-  &.left {
-    transform-origin: top;
-    transform: rotateZ(90deg) translateX(@cardTranslateX) translateY(calc(@cardTranslateY / -1));
-  }
-
-  &.right {
-    transform-origin: top;
-    transform: rotateZ(-90deg) translateX(calc(@cardTranslateX / -1)) translateY(calc(@cardTranslateY / -1));
-  }
 }
 
 .corner-card {
-  width: @cardHeight;
-  height: @cardHeight;
+  //width: @cardHeight;
+  //height: @cardHeight;
   font-size: @cardTextSize;
   border: 1px solid black;
-  box-sizing: border-box;
 
   &.top {
     transform: rotateZ(180deg);
@@ -302,14 +362,11 @@
 }
 
 .street {
-  display: flex;
-  flex-direction: column;
 
   .color {
     height: @colorHeight;
     border-bottom: 2px solid black;
     display: flex;
-    padding: 5px;
 
     .house, .hotel {
       display: flex;
@@ -346,13 +403,7 @@
 }
 
 .chance, .community {
-  display: flex;
-  flex-direction: column;
   text-align: center;
-
-  .title {
-    padding-top: 15px;
-  }
 
   .icon {
     flex-grow: 2;
@@ -369,9 +420,6 @@
 }
 
 .train-station, .utility, .super-tax, .income-tax {
-  display: flex;
-  flex-direction: column;
-
 
   .title, .price {
     text-align: center;
@@ -390,10 +438,12 @@
   .container {
     display: flex;
     flex-direction: column;
-    width: @cardHeight;
-    height: @cardHeight;
+    width: 100%;
+    height: 100%;
     transform: rotateZ(-45deg);
     text-align: center;
+    align-items: center;
+    justify-content: center;
 
     .icon {
       flex-grow: 2;
@@ -573,6 +623,8 @@
 }
 
 .player-list {
+  padding: 10px;
+
   .player-tabs .player {
     display: inline-flex;
     align-items: center;
@@ -583,6 +635,7 @@
 
 .player-board {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: left;
 
@@ -603,7 +656,9 @@
     justify-content: left;
     flex-wrap: wrap;
 
-    .street, .utility, .train-station {
+    .board-card {
+      width: 75px;
+      height: 100px;
       margin: 5px;
     }
   }
@@ -670,8 +725,8 @@
 
 .game-settings {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
 
   ul {
     list-style: none;

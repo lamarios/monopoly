@@ -14,7 +14,7 @@ import Dice from "./Dice";
 import {gameService} from "./services/GameService";
 import Token from "./Token";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTreasureChest, faMapMarkerQuestion} from "@fortawesome/pro-solid-svg-icons";
+import {faMapMarkerQuestion, faTreasureChest} from "@fortawesome/pro-solid-svg-icons";
 
 let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0, dragging = null;
 let lastUpdate = 0;
@@ -82,7 +82,7 @@ export default class Board extends React.Component {
                 {players.map(p => <div key={p.id} className="board-token"
                                        onMouseDown={(e) => this.dragStart(e, p)}
                                        style={{top: p.x + 'px', left: p.y + 'px'}}>
-                    <Token token={p.token}/>
+                    <Token selected={p.id === gameService.currentPlayer} token={p.token}/>
                 </div>)}
                 <div className="dice-set" onClick={this.rollDice}>
                     <Dice diceValue={this.props.game.dice[0]} rolling={this.props.game.rollingDice}/>
@@ -101,77 +101,47 @@ export default class Board extends React.Component {
                     </div>
                 </div>
                 <div className="board">
-                    <div className="board-row top-row">
-                        <FreeParking boardPos="top"/>
-                        <Street position="21" boardPos="top" game={game}/>
-                        <Chance boardPos="top"/>
-                        <Street position="23" boardPos="top" game={game}/>
-                        <Street position="24" boardPos="top" game={game}/>
-                        <TrainStation position="25" boardPos="top" game={game}/>
-                        <Street position="26" boardPos="top" game={game}/>
-                        <Street position="27" boardPos="top" game={game}/>
-                        <Utility position="28" boardPos="top" game={game}/>
-                        <Street position="29" boardPos="top" game={game}/>
-                        <GoToJail/>
-                    </div>
-                    <div className="board-row middle-row">
-                        <Street position="19" boardPos="left" game={game}/>
-                        <div className="board-middle"></div>
-                        <Street position="31" boardPos="right" game={game}/>
-                    </div>
-                    <div className="board-row middle-row">
-                        <Street position="18" boardPos="left" game={game}/>
-                        <div className="board-middle"></div>
-                        <Street position="32" boardPos="right" game={game}/>
-                    </div>
-                    <div className="board-row middle-row">
-                        <Community boardPos="left" game={game}/>
-                        <div className="board-middle"></div>
-                        <Community boardPos="right" game={game}/>
-                    </div>
-                    <div className="board-row middle-row">
-                        <Street position="16" boardPos="left" game={game}/>
-                        <div className="board-middle"></div>
-                        <Street position="34" boardPos="right" game={game}/>
-                    </div>
-                    <div className="board-row middle-row">
-                        <TrainStation position="15" boardPos="left" game={game}/>
-                        <div className="board-middle"></div>
-                        <TrainStation position="35" boardPos="right" game={game}/>
-                    </div>
-                    <div className="board-row middle-row">
-                        <Street position="14" boardPos="left" game={game}/>
-                        <div className="board-middle"></div>
-                        <Chance boardPos="right"/>
-                    </div>
-                    <div className="board-row middle-row">
-                        <Street position="13" boardPos="left" game={game}/>
-                        <div className="board-middle"></div>
-                        <Street position="37" boardPos="right" game={game}/>
-                    </div>
-                    <div className="board-row middle-row">
-                        <Utility position="12" boardPos="left" game={game}/>
-                        <div className="board-middle"></div>
-                        <SuperTax boardPos="right"/>
-                    </div>
-                    <div className="board-row middle-row">
-                        <Street position="11" boardPos="left" game={game}/>
-                        <div className="board-middle"></div>
-                        <Street position="39" boardPos="right" game={game}/>
-                    </div>
-                    <div className="board-row">
-                        <Jail boardPos="bottom"/>
-                        <Street position="9" boardPos="bottom" game={game}/>
-                        <Street position="8" boardPos="bottom" game={game}/>
-                        <Chance boardPos="bottom"/>
-                        <Street position="6" boardPos="bottom" game={game}/>
-                        <TrainStation position="5" boardPos="bottom" game={game}/>
-                        <IncomeTax boardPos="bottom"/>
-                        <Street position="3" boardPos="bottom" game={game}/>
-                        <Community boardPos="bottom"/>
-                        <Street position="1" boardPos="bottom" game={game}/>
-                        <Go/>
-                    </div>
+                    <Go/>
+                    <Street position="1" boardPos="bottom" game={game}/>
+                    <Community position="2" boardPos="bottom"/>
+                    <Street position="3" boardPos="bottom" game={game}/>
+                    <IncomeTax position="4" boardPos="bottom"/>
+                    <TrainStation position="5" boardPos="bottom" game={game}/>
+                    <Street position="6" boardPos="bottom" game={game}/>
+                    <Chance position="7" boardPos="bottom"/>
+                    <Street position="8" boardPos="bottom" game={game}/>
+                    <Street position="9" boardPos="bottom" game={game}/>
+                    <Jail boardPos="bottom"/>
+                    <Street position="11" boardPos="left" game={game}/>
+                    <Utility position="12" boardPos="left" game={game}/>
+                    <Street position="13" boardPos="left" game={game}/>
+                    <Street position="14" boardPos="left" game={game}/>
+                    <TrainStation position="15" boardPos="left" game={game}/>
+                    <Street position="16" boardPos="left" game={game}/>
+                    <Community position="17" boardPos="left" game={game}/>
+                    <Street position="18" boardPos="left" game={game}/>
+                    <Street position="19" boardPos="left" game={game}/>
+                    <FreeParking boardPos="top"/>
+                    <Street position="21" boardPos="top" game={game}/>
+                    <Chance position="22" boardPos="top"/>
+                    <Street position="23" boardPos="top" game={game}/>
+                    <Street position="24" boardPos="top" game={game}/>
+                    <TrainStation position="25" boardPos="top" game={game}/>
+                    <Street position="26" boardPos="top" game={game}/>
+                    <Street position="27" boardPos="top" game={game}/>
+                    <Utility position="28" boardPos="top" game={game}/>
+                    <Street position="29" boardPos="top" game={game}/>
+                    <GoToJail/>
+                    <Street position="31" boardPos="right" game={game}/>
+                    <Street position="32" boardPos="right" game={game}/>
+                    <Community position="33" boardPos="right" game={game}/>
+                    <Street position="34" boardPos="right" game={game}/>
+                    <TrainStation position="35" boardPos="right" game={game}/>
+                    <Chance position="36" boardPos="right"/>
+                    <Street position="37" boardPos="right" game={game}/>
+                    <SuperTax position="38" boardPos="right"/>
+                    <Street position="39" boardPos="right" game={game}/>
+                    <div style={{gridArea: 'e'}}></div>
                 </div>
             </div>)
         } else {

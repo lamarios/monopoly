@@ -5,7 +5,7 @@ import {faSirenOn} from '@fortawesome/pro-solid-svg-icons';
 export default class GoToJail extends React.Component {
 
     render() {
-        return (<div className={"go-to-jail corner-card " + this.props.boardPos}>
+        return (<div className={"go-to-jail corner-card  grid-area-30"}>
             <div className="container">
                 <div>Go To</div>
                 <div className="icon">

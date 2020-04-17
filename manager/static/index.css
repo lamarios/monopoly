@@ -1,6 +1,70 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-image: url("background2.svg");
+    background-size: 1200px auto;
+    background-repeat: repeat-x;
+    animation: background-move 60000s infinite linear;
+    background-position-y: calc(100% - 60px);
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
 #stats {
     position: absolute;
     bottom: 10px;
     right: 10px;
     font-style: italic;
+    color: white;
+}
+
+.container {
+    background-image: url("background.svg");
+    background-size: 1000px auto;
+    background-repeat: repeat-x;
+    animation: background-move 30000s infinite linear;
+    background-position-y: bottom;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialog {
+    background-color: white;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 32px 12px rgba(0, 0, 0, 0.61);
+}
+
+#new-game-url a{
+    display:block
+}
+
+p {
+    margin-top: 0;
+}
+
+#new-game {
+    all: unset;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #303F9F;
+}
+
+@keyframes background-move {
+    from {
+        background-position-x: 0%;
+    }
+    to {
+        background-position-x: 100000%;
+    }
 }
