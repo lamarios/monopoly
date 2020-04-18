@@ -1,6 +1,6 @@
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSirenOn} from '@fortawesome/pro-solid-svg-icons';
+import {faHandPaper} from '@fortawesome/free-solid-svg-icons';
 
 export default class GoToJail extends React.Component {
 
@@ -9,7 +9,7 @@ export default class GoToJail extends React.Component {
             <div className="container">
                 <div>Go To</div>
                 <div className="icon">
-                    <FontAwesomeIcon icon={faSirenOn}/>
+                    <FontAwesomeIcon icon={faHandPaper}/>
                 </div>
                 <div>Jail</div>
             </div>

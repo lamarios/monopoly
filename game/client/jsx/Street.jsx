@@ -1,7 +1,6 @@
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faHouse} from "@fortawesome/pro-solid-svg-icons";
-import {faHotel, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {faHotel, faHome, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {gameService} from "./services/GameService";
 
 export default class Street extends React.Component {
@@ -44,7 +43,7 @@ export default class Street extends React.Component {
         const houses = [];
         if (street.houses > 0) {
             for (let i = 0; i < street.houses; i++) {
-                houses.push(<div className="house" key={i}><FontAwesomeIcon icon={faHouse}/></div>)
+                houses.push(<div className="house" key={i}><FontAwesomeIcon icon={faHome}/></div>)
             }
         } else if (street.hotel > 0) {
             for (let i = 0; i < street.hotel; i++) {

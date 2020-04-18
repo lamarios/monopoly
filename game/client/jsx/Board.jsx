@@ -14,7 +14,7 @@ import Dice from "./Dice";
 import {gameService} from "./services/GameService";
 import Token from "./Token";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMapMarkerQuestion, faTreasureChest} from "@fortawesome/pro-solid-svg-icons";
+import {faQuestion, faInbox} from "@fortawesome/free-solid-svg-icons";
 
 let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0, dragging = null;
 let lastUpdate = 0;
@@ -91,13 +91,13 @@ export default class Board extends React.Component {
                 <div className="community-stack card-stack" onClick={() => gameService.drawCard('community')}>
                     <span>Community Chest</span>
                     <div className="icon">
-                        <FontAwesomeIcon icon={faTreasureChest}/>
+                        <FontAwesomeIcon icon={faInbox}/>
                     </div>
                 </div>
                 <div className="chance-stack card-stack" onClick={() => gameService.drawCard('chance')}>
                     <span>Chance</span>
                     <div className="icon">
-                        <FontAwesomeIcon icon={faMapMarkerQuestion}/>
+                        <FontAwesomeIcon icon={faQuestion}/>
                     </div>
                 </div>
                 <div className="board">

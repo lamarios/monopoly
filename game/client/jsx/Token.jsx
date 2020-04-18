@@ -3,9 +3,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faHatCowboySide, faDog, faCar, faCat, faShip, faDollarSign} from '@fortawesome/free-solid-svg-icons';
-import {faDuck} from '@fortawesome/pro-solid-svg-icons';
 
-library.add(faHatCowboySide, faDog, faCar, faCat, faShip, faDuck, faDollarSign);
+library.add(faHatCowboySide, faDog, faCar, faCat, faShip,  faDollarSign);
 
 export default class Token extends React.Component {
 

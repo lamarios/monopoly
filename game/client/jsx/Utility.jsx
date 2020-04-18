@@ -1,8 +1,7 @@
 import React from 'react';
 import {gameService} from "./services/GameService";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFaucet, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
-import {faLightbulbOn} from "@fortawesome/pro-solid-svg-icons";
+import {faFaucet, faTimesCircle, faLightbulb} from "@fortawesome/free-solid-svg-icons";
 
 export default class Utility extends React.Component {
     constructor(props) {
@@ -43,7 +42,7 @@ export default class Utility extends React.Component {
                 <div className="icon body">
 
                     {utility.type === 'water' && <FontAwesomeIcon icon={faFaucet}/>}
-                    {utility.type === 'electricity' && <FontAwesomeIcon icon={faLightbulbOn}/>}
+                    {utility.type === 'electricity' && <FontAwesomeIcon icon={faLightbulb}/>}
                 </div>
                 {opened && <div className="body">
                     {utility.description}

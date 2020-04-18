@@ -1,4 +1,4 @@
-const HTTPS_PORT = 8443;
+const HTTPS_PORT = process.env.PORT || 8443;
 
 const key = process.env.HTTP_TLS_KEY || 'key.pem';
 const cert = process.env.HTTP_TLS_CERTIFICATE || 'cert.pem';

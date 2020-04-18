@@ -1,5 +1,6 @@
 const DOCKER_SOCKET = process.env.DOCKER_SOCKET || '/var/run/docker.sock';
 
+const HTTPS_PORT = process.env.PORT || 8080;
 const DOCKER_HOST = process.env.DOCKER_HOST;
 const DOCKER_PORT = process.env.DOCKER_PORT;
 
@@ -213,10 +214,10 @@ docker.pull(GAME_IMAGE).then(s => {
         app.use('/game/:gameId', myProxy);
 
         const httpsServer = http.createServer(serverConfig, app);
-        httpsServer.listen(8080, '0.0.0.0');
+        httpsServer.listen(HTTPS_PORT, '0.0.0.0');
         httpsServer.on('upgrade', myProxy.upgrade); // <-- subscribe to http 'upgrade'
 
-        console.log('Server running. Visit http' + (USE_HTTPS ? "s" : "") + '://localhost:8080 in Firefox/Chrome.\n\n\
+        console.log('Server running. Visit http' + (USE_HTTPS ? "s" : "") + '://localhost:' + HTTPS_PORT + ' in Firefox/Chrome.\n\n\
 Some important notes:\n\
   * Some browsers or OSs may not allow the webcam to be used by multiple pages at once. You may need to use two different browsers or machines.\n\
   * Some browsers may not allow the webcam and microphone to work on a non secure connection\n'

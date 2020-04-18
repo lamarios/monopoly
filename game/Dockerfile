@@ -1,4 +1,4 @@
-FROM node AS build
+FROM node:alpine AS build
 
 RUN mkdir /src
 
@@ -11,7 +11,7 @@ RUN npm install
 
 
 
-FROM node
+FROM node:alpine
 RUN mkdir /app
 WORKDIR /app
 COPY --from=build /src/static /app/static
