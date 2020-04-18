@@ -348,6 +348,8 @@ class GameService {
                             "With 4 House": "$925",
                             "With Hotel": "$1100",
                         },
+                        houses: 0,
+                        hotel: 0,
                         cost: {
                             "House": "$150 each",
                             "Hotel": "$150 each"
@@ -404,7 +406,7 @@ class GameService {
                         color: "#d68000",
                         owner: "1",
                         rent: {
-                            "Rent": "$116",
+                            "Rent": "$16",
                             "With colour set": "$32",
                             "With 1 House": "$80",
                             "With 2 House": "$220",
@@ -554,7 +556,7 @@ class GameService {
                     },
                     {
                         position: 1,
-                        title: "Old Klent Road",
+                        title: "Old Kent Road",
                         color: "#614901",
                         owner: "1",
                         rent: {
@@ -625,7 +627,7 @@ class GameService {
                         "Advance to the next station. If UNOWNED, you may buy it from the bank. If OWNED, pay the owner twice the rent to which they are otherwise entitled",
                         "Advance to MayFair",
                         "Advance to the next station. If UNOWNED, you may buy it from the bank. If OWNED, pay the owner twice the rent to which they are otherwise entitled",
-                        "You have been elected chairman of the boar, pay each player $50",
+                        "You have been elected chairman of the board, pay each player $50",
                         "Advance to Trafalgar Square. If you pass go collect $200",
                         "Your building loan matures, collect $150",
                         "Advance to go, collect $200",
