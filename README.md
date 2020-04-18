@@ -4,6 +4,8 @@ This is an online replica of the famous board game, it also has video and text c
 The game includes little game logic to replicate playing the board game version. Meaning that if you roll the dice, you need to move your token. If you pass through the GO, the person in charge of the bank need to send you the money.
 You can make change with other players etc... If you take a deed, the person in charge of the bank needs to give it to you and you need to send the money to the bank yourself.
 
+A running instance can be found here: https://monop.ftpix.com
+
 This repo is split in two different applications, the game itself and a game launcher. The launcher is a small application to launch new instance of the game container. 
 
 ## The Game
