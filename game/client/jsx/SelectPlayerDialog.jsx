@@ -42,15 +42,16 @@ export default class SelectPlayerDialog extends React.Component {
         const availableTokens = TOKENS.filter(t => availablePlayers.findIndex(p => p.token === t) === -1);
         return (<Dialog>
             <div className="select-player-dialog">
-                <div className="select-player">
+                {availablePlayers.length > 0 && <div className="select-player">
                     <h1>Play as</h1>
                     {availablePlayers.map(p => <div key={p.id} onClick={() => this.selectPlayer(p)} className="player">
                         <Token token={p.token}/>
                         {p.name}
                     </div>)}
-                </div>
+                </div>}
                 {!this.props.game.started && <div className="new-player">
-                    <h3>Or create a Player</h3>
+                    {availablePlayers.length > 0 && <h3>Or create a new Player</h3>}
+                    {availablePlayers.length === 0 && <h1>Create a new Player</h1>}
                     <div>
                         <input type="text" placeholder="Player name" value={this.state.newPlayer.name}
                                onChange={this.setPlayerName}/>

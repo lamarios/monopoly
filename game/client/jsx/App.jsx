@@ -10,6 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {rtcService} from "./services/webrtc";
 import Settings from "./Settings";
+import HelpDialog from "./HelpDialog";
 
 const MAX_LOGS = 200;
 
@@ -21,6 +22,7 @@ export default class App extends React.Component {
             logs: [],
             chat: [],
             cardToShow: null,
+            showHelp: true,
         };
     }
 
@@ -60,19 +62,22 @@ export default class App extends React.Component {
         }
     }
 
+    showHelp = () => this.setState({showHelp: true});
+    hideHelp = () => this.setState({showHelp: false});
+
     render() {
         if (this.state.game) {
-            const showPlayerDialog = gameService.currentPlayer === null;
+            const showPlayerDialog = gameService.currentPlayer === null && !this.state.showHelp;
             const card = this.state.cardToShow;
             return (<div>
-                <Settings game={this.state.game} logs={this.state.logs} chat={this.state.chat}/>
+                <Settings game={this.state.game} logs={this.state.logs} chat={this.state.chat} showHelp={this.showHelp}/>
                 <div className="game">
                     <Board game={this.state.game}/>
                     <Logs logs={this.state.logs}/>
                     <Video game={this.state.game} chat={this.state.chat}/>
                     <Players game={this.state.game}/>
                 </div>
-
+                {this.state.showHelp && <HelpDialog dismiss={this.hideHelp}/>}
                 {showPlayerDialog && <SelectPlayerDialog game={this.state.game}/>}
                 {card && <div class="card-overlay">
                     <div className={"card-picked " + card.type}>

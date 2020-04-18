@@ -68,6 +68,7 @@ export default class Settings extends React.Component {
             {this.state.showSettings && <ul>
                 <li onClick={this.saveGame}>Save game</li>
                 <li onClick={this.loadGame}>Load game</li>
+                <li onClick={this.props.showHelp}>Show help dialog</li>
             </ul>
             }
         </div>);
