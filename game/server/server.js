@@ -60,7 +60,9 @@ wss.on('connection', function (ws) {
 
     // sending state of the game to new connections
     wss.broadcast(JSON.stringify({type: 'game', game: gameService.game}));
-
+    ws.on('error' , function(error) {
+console.log(error);
+});
     ws.on('message', function (message) {
         const messageObject = JSON.parse(message);
         console.log('received: %s', message);
