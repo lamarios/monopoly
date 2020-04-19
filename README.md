@@ -72,6 +72,7 @@ Note that video chat and microphone access might not work if the software is not
 | DOCKER_PORT | The port if connecting to the docker host via http | | No |
 | DOCKER_NETWORK| The network which the new games will be started. **It must be the same network as the manager**. If not set the reverse proxy to the games is not going to work. | | **YES** |
 | GAME_CONTAINER_PREFIX | This will be use to prefix the  name the new containers | monopoly-game | No |
+| GAME_TTL | How long in hours before killing an inactive game | 24 | No |
 | MAX_GAMES | Maximum number of games to be ran at the same time | 500 | No |
 | GAME_IMAGE | The docker image to be used to run the games | gonzague/monopoly | No |
 
