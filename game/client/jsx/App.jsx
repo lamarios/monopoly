@@ -23,18 +23,33 @@ export default class App extends React.Component {
             chat: [],
             cardToShow: null,
             showHelp: true,
+            lostConnection: false
         };
     }
 
     componentDidMount() {
-        const location = window.location;
-        let url = location.protocol.replace("http", "ws") + '//' + window.location.hostname + (location.port.length > 0 ? ':' + location.port : "") + location.pathname;
-        console.log('location', location, url);
-        const wsConnection = new WebSocket(url);
+        this.connectToGame();
+    }
 
-        wsConnection.onmessage = this.updateGame;
-        gameService.ws = wsConnection;
-        rtcService.serverConnection = wsConnection;
+    connectToGame = () => {
+        this.setState({game: null}, () => {
+            gameService.currentPlayer = null;
+            const location = window.location;
+            let url = location.protocol.replace("http", "ws") + '//' + window.location.hostname + (location.port.length > 0 ? ':' + location.port : "") + location.pathname;
+            console.log('connecting to websocket', location, url);
+            const wsConnection = new WebSocket(url);
+
+            wsConnection.onclose = () => {
+                this.setState({lostConnection: true}, () => {
+                    setTimeout(this.connectToGame, 1000);
+                });
+            }
+
+            wsConnection.onmessage = this.updateGame;
+            gameService.ws = wsConnection;
+            rtcService.serverConnection = wsConnection;
+        })
+
     }
 
     updateGame = (message) => {
@@ -70,7 +85,8 @@ export default class App extends React.Component {
             const showPlayerDialog = gameService.currentPlayer === null && !this.state.showHelp;
             const card = this.state.cardToShow;
             return (<div>
-                <Settings game={this.state.game} logs={this.state.logs} chat={this.state.chat} showHelp={this.showHelp}/>
+                <Settings game={this.state.game} logs={this.state.logs} chat={this.state.chat}
+                          showHelp={this.showHelp}/>
                 <div className="game">
                     <Board game={this.state.game}/>
                     <Logs logs={this.state.logs}/>
@@ -91,7 +107,10 @@ export default class App extends React.Component {
                 </div>}
             </div>);
         } else {
-            return (<div>Loading Game</div>);
+            return (<div className="game-loading">
+                {this.state.lostConnection && <span>Lost connection to server, reconnecting...</span>}
+                {!this.state.lostConnection && <span>Loading game...</span>}
+            </div>);
         }
     }
 

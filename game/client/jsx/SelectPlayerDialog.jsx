@@ -10,6 +10,7 @@ export default class SelectPlayerDialog extends React.Component {
         newPlayer: {
             name: '',
             token: '',
+            error: ''
         }
     }
 
@@ -27,9 +28,20 @@ export default class SelectPlayerDialog extends React.Component {
 
     addPlayer = () => {
         const player = this.state.newPlayer;
-        if (player.name.length > 0 && player.token.length > 0) {
-            gameService.addNewPlayer(player);
+        if (player.name.length === 0) {
+            this.setState({error: 'Name is empty'})
+            return;
         }
+        if (player.token.length === 0) {
+            this.setState({error: 'You need to select a token'})
+            return;
+        }
+        if (this.props.game.players.some(p => p.name.toLowerCase() === player.name.toLowerCase() || p.token === player.token)) {
+            this.setState({error: 'Player with the same name or token already exist'})
+            return;
+        }
+
+        gameService.addNewPlayer(player);
     }
 
     selectPlayer = (player) => {
@@ -63,6 +75,7 @@ export default class SelectPlayerDialog extends React.Component {
                     </span>)}
                     </div>
                     <button onClick={this.addPlayer}>Start</button>
+                    &nbsp;{this.state.error}
                 </div>}
             </div>
         </Dialog>)

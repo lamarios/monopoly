@@ -294,7 +294,7 @@ class GameService {
                         position: 23,
                         owner: "1",
                         title: "Fleet Street",
-                        color: "#d60000",
+                        color: "#9f0108",
                         rent: {
                             "Rent": "$18",
                             "With colour set": "$36",
@@ -316,7 +316,7 @@ class GameService {
                         position: 21,
                         owner: "1",
                         title: "Strand",
-                        color: "#d60000",
+                        color: "#9f0108",
                         rent: {
                             "Rent": "$18",
                             "With colour set": "$36",
@@ -338,7 +338,7 @@ class GameService {
                         position: 24,
                         owner: "1",
                         title: "Trafalgar Square",
-                        color: "#d60000",
+                        color: "#9f0108",
                         rent: {
                             "Rent": "$20",
                             "With colour set": "$40",

@@ -9,7 +9,8 @@ function getStats() {
     fetch("/stats")
         .then(r => r.json())
         .then(stats => {
-            document.getElementById('stats').innerHTML = "On going games: " + stats.current + "/" + stats.max + ", Number of games started: " + stats.total;
+            document.getElementById('stats').innerHTML = "On going games: " + stats.current + "/" + stats.max;
+            document.getElementById("game-ttl").innerHTML = stats.ttl;
 
             if (stats.current >= stats.max) {
                 document.getElementById("new-game-container").innerHTML = 'Server at max capacity, try again later';

@@ -10,8 +10,8 @@
 @communityIconSize: 30px;
 @cornerIconSize: 35px;
 @stationIconSize: 25px;
-@houseIconSize: 7px;
-@houseSize: 17px;
+@houseIconSize: 12px;
+@houseSize: calc(@colorHeight - 2px);
 
 @boardWidth: 950px;
 
@@ -45,6 +45,13 @@ h3 {
   grid-template-columns: repeat(2, calc(@boardWidth / 2)) repeat(2, 1fr);
   grid-template-rows: repeat(4, calc(@boardWidth / 4));
 
+}
+
+.game-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .card-overlay {
@@ -280,6 +287,9 @@ h3 {
 
   &.right {
     transform: rotate(180deg);
+    .house, .hotel{
+      transform: rotate(90deg);
+    }
   }
 
   .icon {
@@ -327,16 +337,14 @@ h3 {
     }
 
     .color {
-      height: calc(@colorHeight * 2) !important;
+      height: calc(@colorHeight * 2.5) !important;
       border-left: none !important;
       border-bottom: 1px solid black !important;
       width: 300px !important;
 
       .house, .hotel {
-        width: calc(@colorHeight * 2 - 10px) !important;
-        height: calc(@colorHeight * 2 - 10px) !important;
-        border-radius: calc(@colorHeight * 2 - 10px) !important;
-        font-size: calc(@colorHeight) !important;
+        font-size: calc(@houseIconSize * 4) !important;
+        transform: none !important;
       }
     }
   }
@@ -372,22 +380,17 @@ h3 {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: @houseSize;
-      height: @houseSize;
-      border-radius: @houseSize;
-      color: white;
-      border: 1px solid white;
       text-align: center;
       font-size: @houseIconSize;
       margin-right: 5px;
     }
 
     .house {
-      background-color: #00d501;
+      color: #00FF00;
     }
 
     .hotel {
-      background-color: #aa0007;
+      color: #FF0000;
     }
   }
 
@@ -476,7 +479,7 @@ h3 {
 .jail {
   position: relative;
   display: grid;
-  grid-template-areas: 'visit-left cell cell ' 'visit-left cell cell '  'e visit-bottom visit-bottom';
+  grid-template-areas: 'visit-left cell cell ' 'visit-left cell cell ' 'e visit-bottom visit-bottom';
   grid-template-rows: repeat(3, 1fr);
   grid-template-columns: repeat(3, 1fr);
 

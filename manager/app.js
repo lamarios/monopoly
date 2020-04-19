@@ -7,6 +7,7 @@ const DOCKER_PORT = process.env.DOCKER_PORT;
 const DOCKER_NETWORK = process.env.DOCKER_NETWORK || 'bridge';
 const GAME_CONTAINER_PREFIX = process.env.GAME_CONTAINER_PREFIX || 'monopoly-game-';
 const MAX_GAMES = process.env.MAX_GAMES || 500;
+const GAME_TTL = process.env.GAME_TTL || 24;
 const GAME_IMAGE = process.env.GAME_IMAGE || 'gonzague/monopoly';
 
 let dockerConfig = {socketPath: DOCKER_SOCKET};
@@ -41,7 +42,6 @@ const fetch = require("node-fetch");
 
 docker = new Docker(dockerConfig);
 
-let totalGames = 0;
 
 /**
  * Extracts a game ID from a string
@@ -119,7 +119,7 @@ async function isGameExpired(container) {
 
     if (stats && stats.lastActivity) {
         const now = Date.now();
-        return (now - stats.lastActivity) > 1000 * 60 * 60 * 24;
+        return (now - stats.lastActivity) > 1000 * 60 * 60 * GAME_TTL;
     } else {
         // if we  can't get the info, the game is expired
         return true;
@@ -168,7 +168,6 @@ async function createNewGame(req, res) {
             }
         }).then(function (container) {
             container.start();
-            totalGames++;
         });
 
         res.send(gameName);
@@ -186,10 +185,8 @@ async function createNewGame(req, res) {
 async function getStats(req, res) {
     const games = await getRunningGames();
     const current = games.length;
-    const total = current > totalGames ? current : totalGames;
-    totalGames = total;
     res.send(JSON.stringify({
-        total: total,
+        ttl: GAME_TTL,
         current: games.length,
         max: MAX_GAMES
     }));
@@ -200,7 +197,7 @@ docker.pull(GAME_IMAGE).then(s => {
         console.log('Pull compete, starting server');
         //clean games every hour
         // setInterval(retireExpiredGames, 3600 * 1000);
-        setInterval(retireExpiredGames, 10 * 60 * 1000);
+        setInterval(retireExpiredGames, 60 * 60 * 1000);
         // pulling the game every 24 hours
         setInterval(() => {
             console.log('Pulling ' + GAME_IMAGE)
