@@ -8,7 +8,7 @@ export default class Logs extends React.Component {
     }
     render() {
         return (<div className="logs">
-            <h3>Logs</h3>
+            <h3>Logs <small><a href="./logs.txt" target="_blank">View full log</a></small></h3>
             <div id="log-box" className="text">
                 {this.props.logs.map((l, index) => <p key={index}>{l}</p> )}
             </div>

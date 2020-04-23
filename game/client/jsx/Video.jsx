@@ -39,6 +39,7 @@ export default class Video extends React.Component {
             <div id="chat-box" className="chat">
                 {this.props.chat.map((l, index) => <p key={index}>{l}</p>)}
             </div>
+            <div><small><a href="./chat.txt" target="_blank">View full chat</a></small></div>
             <div className="chat-input">
                 <input type="text" value={this.state.chatInput}
                        placeholder="Text chat here"

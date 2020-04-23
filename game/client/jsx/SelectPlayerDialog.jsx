@@ -3,7 +3,7 @@ import Dialog from "./components/Dialog";
 import Token from "./Token";
 import {gameService} from './services/GameService';
 
-const TOKENS = ['hat-cowboy-side', 'dog', 'cat', 'car', 'ship', 'dollar-sign'];
+const TOKENS = ['hat-cowboy-side', 'dog', 'cat', 'car', 'ship', 'frog'];
 
 export default class SelectPlayerDialog extends React.Component {
     state = {

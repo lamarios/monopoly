@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 function shuffle(array) {
     let counter = array.length;
 
@@ -22,6 +24,8 @@ class GameService {
     logs = [];
     chat = [];
     newGame = () => {
+        fs.writeFileSync(this.logFile, '');
+        fs.writeFileSync(this.chatFile, '');
         return {
             dice: [3, 6],
             rollingDice: false,
@@ -962,6 +966,7 @@ class GameService {
         const date = new Date();
         message = "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "] " + message;
         this.logs.push(message);
+        fs.appendFileSync(this.logFile, message+'\n', 'utf8');
 
         if (this.logs.length > 200) {
             this.logs.shift();
@@ -974,6 +979,7 @@ class GameService {
         const date = new Date();
         message = "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "] " + player.name + ": " + message;
         message.replace('<', '&lt;').replace('>', '&gt;');
+        fs.appendFileSync(this.chatFile, message+'\n', 'utf8');
         this.chat.push(message);
 
         if (this.chat.length > 200) {
@@ -1011,8 +1017,11 @@ class GameService {
 
     }
 
+    logFile = './static/logs.txt';
+    chatFile = './static/chat.txt';
     game = this.newGame();
     ws = undefined;
+
 }
 
 exports
