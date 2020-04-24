@@ -1,4 +1,4 @@
-FROM node:alpine AS build
+FROM node AS build
 
 RUN mkdir /src
 
