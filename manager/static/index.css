@@ -43,8 +43,8 @@ h1 {
     box-shadow: 0px 8px 32px 12px rgba(0, 0, 0, 0.61);
 }
 
-#new-game-url a{
-    display:block
+#new-game-url a {
+    display: block
 }
 
 p {
@@ -60,11 +60,71 @@ p {
     background-color: #303F9F;
 }
 
+#github {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+}
+
+#github a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #448AFF;
+    text-decoration: none;
+}
+
+
+#github a span {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+#github a:hover span {
+    opacity: 1;
+}
+
+#github img {
+    width: 50px;
+}
+
+#github a:hover img {
+    animation: pop-up 0.5s ease-in-out;
+}
+
 @keyframes background-move {
     from {
         background-position-x: 0%;
     }
     to {
         background-position-x: 100000%;
+    }
+}
+
+@keyframes pop-up {
+    0% {
+
+    }
+
+    20% {
+        transform: scale(1.5);
+    }
+    40% {
+
+        transform: scale(1.5) rotate(45deg);
+    }
+
+    60% {
+        transform: scale(1.5) rotate(-45deg);
+    }
+
+    80% {
+        transform: scale(1.5) rotate(0deg);
+    }
+
+
+    100% {
+        transform: scale(1);
     }
 }
