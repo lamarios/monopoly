@@ -56,7 +56,8 @@ class GameService {
                         title: "Electric Company",
                         type: "electricity",
                         description: "If one Utility is owned, rent is 4 times the amount shown on dice. If both Utilities are owned rent is 10 times amount shown on dice.",
-                        price: "$150"
+                        price: "$150",
+                        mortgaged: false
                     },
                     {
                         position: 28,
@@ -64,7 +65,8 @@ class GameService {
                         type: "water",
                         title: "Water works",
                         description: "If one Utility is owned, rent is 4 times the amount shown on dice. If both Utilities are owned rent is 10 times amount shown on dice.",
-                        price: "$150"
+                        price: 150,
+                        mortgaged: false
                     }
                 ],
                 trainStations: [
@@ -78,7 +80,8 @@ class GameService {
                             "If 3 Stations are Owned": "$100",
                             "If 4 Stations are Owned": "$200",
                         },
-                        price: "$200"
+                        price: 200,
+                        mortgaged: false
                     },
                     {
                         position: 15,
@@ -90,7 +93,8 @@ class GameService {
                             "If 3 Stations are Owned": "$100",
                             "If 4 Stations are Owned": "$200",
                         },
-                        price: "$200"
+                        price: 200,
+                        mortgaged: false
                     },
                     {
                         position: 25,
@@ -102,7 +106,8 @@ class GameService {
                             "If 3 Stations are Owned": "$100",
                             "If 4 Stations are Owned": "$200",
                         },
-                        price: "$200"
+                        price: 200,
+                        mortgaged: false
                     },
                     {
                         position: 35,
@@ -114,7 +119,8 @@ class GameService {
                             "If 3 Stations are Owned": "$100",
                             "If 4 Stations are Owned": "$200",
                         },
-                        price: "$200"
+                        price: 200,
+                        mortgaged: false
                     },
                 ],
                 regular: [
@@ -138,7 +144,8 @@ class GameService {
                         },
                         houses: 0,
                         hotel: 0,
-                        price: "$350"
+                        price: 350,
+                        mortgaged: false
                     },
                     {
                         position: 39,
@@ -160,7 +167,8 @@ class GameService {
                             "House": "$200 each",
                             "Hotel": "$200 each"
                         },
-                        price: "$400"
+                        price: 400,
+                        mortgaged: false
                     },
                     {
                         position: 31,
@@ -182,7 +190,8 @@ class GameService {
                             "House": "$200 each",
                             "Hotel": "$200 each"
                         },
-                        price: "$300"
+                        price: 300,
+                        mortgaged: false
                     },
                     {
                         position: 34,
@@ -204,7 +213,8 @@ class GameService {
                             "House": "$200 each",
                             "Hotel": "$200 each"
                         },
-                        price: "$320"
+                        price: 320,
+                        mortgaged: false
                     },
                     {
                         position: 32,
@@ -226,7 +236,8 @@ class GameService {
                             "House": "$200 each",
                             "Hotel": "$200 each"
                         },
-                        price: "$300"
+                        price: 300,
+                        mortgaged: false
                     },
                     {
                         position: 26,
@@ -248,7 +259,8 @@ class GameService {
                             "House": "$150 each",
                             "Hotel": "$150 each"
                         },
-                        price: "$260"
+                        price: 260,
+                        mortgaged: false
                     },
                     {
                         position: 27,
@@ -270,7 +282,8 @@ class GameService {
                             "House": "$150 each",
                             "Hotel": "$150 each"
                         },
-                        price: "$260"
+                        price: 260,
+                        mortgaged: false
                     },
                     {
                         position: 29,
@@ -292,7 +305,8 @@ class GameService {
                             "House": "$150 each",
                             "Hotel": "$150 each"
                         },
-                        price: "$280"
+                        price: 280,
+                        mortgaged: false
                     },
                     {
                         position: 23,
@@ -314,7 +328,8 @@ class GameService {
                             "House": "$150 each",
                             "Hotel": "$150 each"
                         },
-                        price: "$220"
+                        price: 220,
+                        mortgaged: false
                     },
                     {
                         position: 21,
@@ -336,7 +351,8 @@ class GameService {
                         },
                         houses: 0,
                         hotel: 0,
-                        price: "$220"
+                        price: 220,
+                        mortgaged: false
                     },
                     {
                         position: 24,
@@ -358,7 +374,8 @@ class GameService {
                             "House": "$150 each",
                             "Hotel": "$150 each"
                         },
-                        price: "$240"
+                        price: 240,
+                        mortgaged: false
                     },
                     {
                         position: 16,
@@ -380,7 +397,8 @@ class GameService {
                             "House": "$100 each",
                             "Hotel": "$100 each"
                         },
-                        price: "$180"
+                        price: 180,
+                        mortgaged: false
                     },
                     {
                         position: 18,
@@ -402,7 +420,8 @@ class GameService {
                             "House": "$100 each",
                             "Hotel": "$100 each"
                         },
-                        price: "$180"
+                        price: 180,
+                        mortgaged: false
                     },
                     {
                         position: 19,
@@ -424,7 +443,8 @@ class GameService {
                             "House": "$100 each",
                             "Hotel": "$100 each"
                         },
-                        price: "$200"
+                        price: 200,
+                        mortgaged: false
                     },
                     {
                         position: 13,
@@ -446,7 +466,8 @@ class GameService {
                             "House": "$100 each",
                             "Hotel": "$100 each"
                         },
-                        price: "$140"
+                        price: 140,
+                        mortgaged: false
                     },
                     {
                         position: 11,
@@ -468,7 +489,8 @@ class GameService {
                             "House": "$100 each",
                             "Hotel": "$100 each"
                         },
-                        price: "$140"
+                        price: 140,
+                        mortgaged: false
                     },
                     {
                         position: 14,
@@ -490,7 +512,8 @@ class GameService {
                             "House": "$100 each",
                             "Hotel": "$100 each"
                         },
-                        price: "$160"
+                        price: 160,
+                        mortgaged: false
                     },
                     {
                         position: 6,
@@ -512,7 +535,8 @@ class GameService {
                             "House": "$50 each",
                             "Hotel": "$50 each"
                         },
-                        price: "$100"
+                        price: 100,
+                        mortgaged: false
                     },
                     {
                         position: 8,
@@ -534,7 +558,8 @@ class GameService {
                             "House": "$50 each",
                             "Hotel": "$50 each"
                         },
-                        price: "$100"
+                        price: 100,
+                        mortgaged: false
                     },
                     {
                         position: 9,
@@ -556,7 +581,8 @@ class GameService {
                             "House": "$50 each",
                             "Hotel": "$50 each"
                         },
-                        price: "$120"
+                        price: 120,
+                        mortgaged: false
                     },
                     {
                         position: 1,
@@ -578,7 +604,8 @@ class GameService {
                             "House": "$50 each",
                             "Hotel": "$50 each"
                         },
-                        price: "$60"
+                        price: 60,
+                        mortgaged: false
                     },
                     {
                         position: 3,
@@ -600,7 +627,8 @@ class GameService {
                             "House": "$50 each",
                             "Hotel": "$50 each"
                         },
-                        price: "$60"
+                        price: 60,
+                        mortgaged: false
                     },
                 ],
             },
@@ -692,6 +720,8 @@ class GameService {
             case 'chat':
                 this.addToChat(params.message, player);
                 break;
+            case 'mortgage':
+                this.toggleMortgageDeed(params.title, params.type, player);
         }
 
         return {type: 'game', game: this.game};
@@ -710,6 +740,36 @@ class GameService {
         this.logs = game.logs || [];
         this.chat = game.chat || [];
         this.ws.broadcast(JSON.stringify({type: 'newGame', game: this.game}));
+    }
+
+    toggleMortgageDeed = (title, type, from) => {
+        const deed = this.game.deeds[type].find(s => s.title === title);
+
+        let canMortgage = this.canMortgage(deed, from);
+        console.log('Can mortgage?', canMortgage);
+        if (canMortgage) {
+            deed.mortgaged = !deed.mortgaged;
+            this.sendLog(from.name + " " + (deed.mortgaged ? "" : "un") + "mortgaged " + deed.title);
+        } else {
+            this.sendLog(from.name + " can't mortgage this property, either not the owner or other properties from the same color still have houses");
+        }
+
+    }
+
+    canMortgage = (deed, user) => {
+        console.log('can mortgage', deed, user);
+        if (deed.owner !== user.id) {
+            return false;
+        }
+
+        // it's a street, we need to check if there any houses left on the street of the same colors
+        if (deed.color) {
+            return this.game.deeds.regular.filter(d => d.color === deed.color)
+                .every(d => d.houses === 0 && d.hotel === 0);
+        } else {
+            return true;
+        }
+
     }
 
     drawCard = (type, player) => {
@@ -874,11 +934,11 @@ class GameService {
                 toUser.housing.houses = toUser.housing.houses + houses;
                 deed.hotel = 0;
                 deed.houses = 0;
+                deed.mortgaged = false;
             }
 
             deed.owner = toUser.id;
 
-            this.game.deeds[type].sort((s1, s2) => s2.position - s1.position);
             this.game.deeds[type].sort((s1, s2) => s2.position - s1.position);
 
             this.sendLog(this.getPlayerFromId(from).name + " transferred " + title + " from " + owner.name + " to " + toUser.name);
@@ -966,7 +1026,7 @@ class GameService {
         const date = new Date();
         message = "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "] " + message;
         this.logs.push(message);
-        fs.appendFileSync(this.logFile, message+'\n', 'utf8');
+        fs.appendFileSync(this.logFile, message + '\n', 'utf8');
 
         if (this.logs.length > 200) {
             this.logs.shift();
@@ -979,7 +1039,7 @@ class GameService {
         const date = new Date();
         message = "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "] " + player.name + ": " + message;
         message.replace('<', '&lt;').replace('>', '&gt;');
-        fs.appendFileSync(this.chatFile, message+'\n', 'utf8');
+        fs.appendFileSync(this.chatFile, message + '\n', 'utf8');
         this.chat.push(message);
 
         if (this.chat.length > 200) {

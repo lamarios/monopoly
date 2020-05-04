@@ -2,6 +2,7 @@ import React from 'react';
 import {gameService} from "./services/GameService";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTimesCircle, faTrain} from "@fortawesome/free-solid-svg-icons";
+import Mortgage from "./Mortgage";
 
 export default class TrainStation extends React.Component {
     constructor(props) {
@@ -24,12 +25,16 @@ export default class TrainStation extends React.Component {
 
 
         let canSend = false;
+        let owner = false;
         if (opened) {
             const permissions = gameService.allowedToSendDeed(station, this.props.game);
             canSend = permissions.canSend;
+            owner = permissions.owner;
         }
 
-        return (<div className={"train-station board-card grid-area-"+this.props.position+" " + this.props.boardPos + " " + (opened ? "opened" : "")}
+        const mortgageClass = station.mortgaged ? " mortgaged":"";
+
+        return (<div className={"train-station board-card grid-area-"+this.props.position+" " + this.props.boardPos + " " + (opened ? "opened" : "")+mortgageClass}
                      onClick={() => this.setState({opened: true})}>
             {opened && <a className="close" onClick={(e) => {
                 this.setState({opened: false});
@@ -42,6 +47,7 @@ export default class TrainStation extends React.Component {
             {opened && <div className="body">
                 {Object.keys(station.rent).map(k => <div key={k}>{k}:&nbsp;{station.rent[k]}</div>)}
 
+                {opened && <Mortgage property={station} isOwner={owner}  game={this.props.game} type="trainStations"/>}
 
                 <div>
                     <hr/>
@@ -60,7 +66,7 @@ export default class TrainStation extends React.Component {
                 </div>}
 
             </div>}
-            <div className="price">{station.price}</div>
+            <div className="price">${station.price}</div>
         </div>);
     }
 }

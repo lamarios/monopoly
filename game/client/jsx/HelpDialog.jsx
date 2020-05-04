@@ -15,7 +15,11 @@ export default class HelpDialog extends React.Component {
                 to give it to you and you need to send the money to the bank yourself.
             </p>
 
-            <p>Every action needs to be done by a player and is logged in the "Logs" panel so you don't miss anything</p>
+            <p>Every action needs to be done by a player and is logged in the "Logs" panel so you don't miss
+                anything</p>
+
+            <p>Any issue or request for the game ? <a href="https://github.com/lamarios/monopoly/issues" target="_blank">Submit
+                it here.</a></p>
         </Dialog>);
     }
 }

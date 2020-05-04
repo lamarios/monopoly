@@ -2,6 +2,7 @@ import React from 'react';
 import {gameService} from "./services/GameService";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFaucet, faTimesCircle, faLightbulb} from "@fortawesome/free-solid-svg-icons";
+import Mortgage from "./Mortgage";
 
 export default class Utility extends React.Component {
     constructor(props) {
@@ -24,13 +25,16 @@ export default class Utility extends React.Component {
         const opened = this.state.opened;
 
         let canSend = false;
+        let owner = false;
         if (opened) {
             const permissions = gameService.allowedToSendDeed(utility, this.props.game);
             canSend = permissions.canSend;
+            owner = permissions.owner;
         }
 
+        const mortgageClass = utility.mortgaged ? " mortgaged":"";
         return (
-            <div className={"utility grid-area-"+this.props.position+" board-card " + this.props.boardPos + " " + (opened ? "opened" : "")}
+            <div className={"utility grid-area-"+this.props.position+" board-card " + this.props.boardPos + " " + (opened ? "opened" : "")+mortgageClass}
                  onClick={() => this.setState({opened: true})}>
 
                 {opened && <a className="close" onClick={(e) => {
@@ -46,6 +50,8 @@ export default class Utility extends React.Component {
                 </div>
                 {opened && <div className="body">
                     {utility.description}
+
+                    <Mortgage property={utility} isOwner={owner}  game={this.props.game} type="utilities"/>
 
 
                     <div>
@@ -65,7 +71,7 @@ export default class Utility extends React.Component {
                     </div>}
 
                 </div>}
-                <div className="price">{utility.price}</div>
+                <div className="price">${utility.price}</div>
             </div>);
     }
 }

@@ -44,7 +44,7 @@ class GameService {
     canBuyHouse = (street, game) => {
         // get total of house of same color
         return game.deeds.regular.filter(s => street.color === s.color)
-            .every(s => s.owner == this.currentPlayer);
+            .every(s => s.owner == this.currentPlayer && s.mortgaged === false);
 
     }
 
@@ -100,6 +100,28 @@ class GameService {
 
     sendToWs = (command, object) => {
         this.ws.send(JSON.stringify({type: 'game', command: command, params: object, from: this.currentPlayer}));
+    }
+
+    toggleMortgageProperty = (property, type) => {
+        this.sendToWs('mortgage', {
+            title: property.title,
+            type: type
+        })
+    }
+
+    canMortgage = (deed, game) => {
+        if (deed.owner !== this.currentPlayer) {
+            return false;
+        }
+
+        // it's a street, we need to check if there any houses left on the street of the same colors
+        if (deed.color) {
+            return game.deeds.regular.filter(d => d.color === deed.color)
+                .every(d => d.houses === 0 && d.hotel === 0);
+        } else {
+            return true;
+        }
+
     }
 }
 

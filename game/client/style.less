@@ -283,11 +283,19 @@ h3 {
       border-bottom: none;
       border-left: 1px solid black;
     }
+
+
+    &.mortgaged:after {
+      left: 48px;
+      top: -10px;
+    }
+
   }
 
   &.right {
     transform: rotate(180deg);
-    .house, .hotel{
+
+    .house, .hotel {
       transform: rotate(90deg);
     }
   }
@@ -298,10 +306,27 @@ h3 {
     justify-content: center;
   }
 
+  &.mortgaged {
+
+    &:after {
+
+      content: "Mortgaged";
+      color: red;
+      position: absolute;
+      top: 48px;
+      left: -9px;
+      font-size: 18px;
+      font-weight: bold;
+      transform: rotate(45deg);
+      pointer-events: none;
+
+    }
+  }
+
 
   &.opened {
     width: 300px !important;
-    height: 500px !important;
+    height: auto !important;
     font-size: 18px !important;
     background-color: white;
     position: fixed;
@@ -311,6 +336,13 @@ h3 {
     transform: none !important;
     box-shadow: 0px 8px 32px 12px rgba(0, 0, 0, 0.61);
     writing-mode: unset !important;
+
+    &.mortgaged:after {
+      font-size: 60px;
+      top: 177px !important;
+      left: -9px !important;
+      opacity: 0.5;
+    }
 
     .close {
       position: absolute;

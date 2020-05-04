@@ -1,7 +1,8 @@
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faHotel, faHome, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {faHome, faHotel, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {gameService} from "./services/GameService";
+import Mortgage from "./Mortgage";
 
 export default class Street extends React.Component {
 
@@ -59,9 +60,12 @@ export default class Street extends React.Component {
             canBuyHouse = gameService.canBuyHouse(street, this.props.game);
         }
 
+        const mortgageClass = street.mortgaged ? " mortgaged":"";
+
         return (
-            <div className={"street board-card grid-area-"+this.props.position+" " + this.props.boardPos + " " + (opened ? "opened" : "")}
-                 onClick={() => this.setState({opened: true})}>
+            <div
+                className={"street board-card grid-area-" + this.props.position + " " + this.props.boardPos + " " + (opened ? "opened" : "")+mortgageClass}
+                onClick={() => this.setState({opened: true})}>
                 {opened && <a className="close" onClick={(e) => {
                     this.setState({opened: false});
                     e.stopPropagation();
@@ -78,7 +82,10 @@ export default class Street extends React.Component {
                         {Object.keys(street.cost).map(k => <div key={k}>{k}:&nbsp;{street.cost[k]}</div>)}
                     </div>}
 
+                    {opened && <Mortgage property={street} isOwner={owner} game={this.props.game} type="regular"/>}
+
                     {opened && canBuyHouse && <div className="housing">
+                        <hr />
                         <div>
                             Houses: <button onClick={this.removeHouse}>-</button> {street.houses} /
                             4 <button onClick={this.addHouse}>+</button>
@@ -106,7 +113,7 @@ export default class Street extends React.Component {
                     </div>}
 
                 </div>
-                <div className="price">{street.price}</div>
+                <div className="price">${street.price}</div>
             </div>
         )
     }
