@@ -9,12 +9,8 @@ const Mortgage = (props) => {
 
     const canMortgage = gameService.canMortgage(props.property, props.game);
     const isOwner = props.property.owner === gameService.currentPlayer;
-    console.log('is owner ?', isOwner);
 
-    const toggleMortgage = () => {
-        console.log('new mortgage = ', !props.property.mortgaged);
-        gameService.toggleMortgageProperty(props.property, props.type)
-    }
+    const toggleMortgage = () => gameService.toggleMortgageProperty(props.property, props.type)
 
     return (<div>
         <hr/>

@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const OUT_OF_JAIL = "Get out of jail free. This card may be kept until needed, traded or sold.";
+
 function shuffle(array) {
     let counter = array.length;
 
@@ -643,7 +645,7 @@ class GameService {
                         "School fees. Pay $50",
                         "Hospital Fees. Pay $100",
                         "Collect $25 consultancy fee",
-                        "Get out of jail free. This card may be kept until needed, traded or sold.",
+                        OUT_OF_JAIL,
                         "Bank error in your favour. Collect $200",
                         "It's your birthday collect $10 from each player",
                         "Life insurance matures. Collect $100",
@@ -654,7 +656,7 @@ class GameService {
                 },
                 community: {
                     available: shuffle([
-                        "Get out of jail free. This card may be kept until needed, traded or sold.",
+                        OUT_OF_JAIL,
                         "Go to Jail, Go directly to jail. Do not pass go. Do not collect $200",
                         "Advance to the next station. If UNOWNED, you may buy it from the bank. If OWNED, pay the owner twice the rent to which they are otherwise entitled",
                         "Advance to MayFair",
@@ -663,7 +665,7 @@ class GameService {
                         "Advance to Trafalgar Square. If you pass go collect $200",
                         "Your building loan matures, collect $150",
                         "Advance to go, collect $200",
-                        "Take atrop to king's cross station, if you pass go collect $200",
+                        "Take a trip to king's cross station, if you pass go collect $200",
                         "Speeding fine, pay $15",
                         "Advance to the nearest utility, if UNOWNED, you may buy it from the bank. If OWNED, roll the dice and pay the owner 10 times your roll",
                         "Make general repairs on all you property: For each house pay $25, for each hotel pay $100",
@@ -722,9 +724,51 @@ class GameService {
                 break;
             case 'mortgage':
                 this.toggleMortgageDeed(params.title, params.type, player);
+                break;
+            case 'useOutOfJailCard':
+                this.useOutOfJailCard(player);
+                break;
+            case 'transferOutOfJailCard':
+                this.transferOutOfJailCard(player, params.to);
+                break;
         }
 
         return {type: 'game', game: this.game};
+    }
+
+    transferOutOfJailCard = (player, to) => {
+        const toPlayer = this.getPlayerFromId(to);
+        if (!toPlayer) {
+            this.sendLog(to + " player doesn't exist");
+            return;
+        }
+
+        if (player.outOfJail.community > 0) {
+            player.outOfJail.community--;
+            toPlayer.outOfJail.community++;
+            this.sendLog(player.name + " sent a 'Get out of jail' card to " + toPlayer.name);
+        } else if (player.outOfJail.chance > 0) {
+            player.outOfJail.chance--;
+            toPlayer.outOfJail.chance++;
+            this.sendLog(player.name + " sent a 'Get out of jail' card to " + toPlayer.name);
+        } else {
+            this.sendLog(player.name + " doesn't have an 'Get out of jail' card");
+        }
+
+    }
+
+    useOutOfJailCard = (player) => {
+        if (player.outOfJail.community > 0) {
+            player.outOfJail.community--;
+            this.game.cards.community.used.push(OUT_OF_JAIL);
+            this.sendLog(player.name + " has used a 'Get out of jail' card");
+        } else if (player.outOfJail.chance > 0) {
+            player.outOfJail.chance--;
+            this.game.cards.chance.used.push(OUT_OF_JAIL);
+            this.sendLog(player.name + " has used a 'Get out of jail' card");
+        } else {
+            this.sendLog(player.name + " doesn't have an 'Get out of jail' card");
+        }
     }
 
     loadGame = (game, player) => {
@@ -782,9 +826,14 @@ class GameService {
         }
 
         const picked = cards.available.pop();
-        cards.used.push(picked);
-        this.sendLog(player.name + " draw  " + type + " card \"" + picked + "\"");
 
+        if (picked === OUT_OF_JAIL) {
+            player.outOfJail[type]++;
+        } else {
+            cards.used.push(picked);
+        }
+
+        this.sendLog(player.name + " draw  " + type + " card \"" + picked + "\"");
         this.ws.broadcast(JSON.stringify({type: 'cardDrawn', card: picked, cardType: type, player: player}));
 
     }
@@ -966,6 +1015,10 @@ class GameService {
         };
         player.x = 200 + 40 * this.game.players.length;
         player.y = 200;
+        player.outOfJail = {
+            chance: 0,
+            community: 0,
+        }
 
         this.game.players.push(player);
 

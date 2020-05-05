@@ -48,6 +48,14 @@ class GameService {
 
     }
 
+    useOutOfJailCard = () => {
+        this.sendToWs('useOutOfJailCard', {});
+    }
+
+    transferOutOfJailCard = (to) => {
+        this.sendToWs('transferOutOfJailCard', {to: to});
+    }
+
     allowedToSendDeed = (deed, game) => {
         return {
             canSend: deed.owner == 1 || deed.owner === this.currentPlayer,
