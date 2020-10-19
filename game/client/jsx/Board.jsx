@@ -14,9 +14,9 @@ import Dice from "./Dice";
 import {gameService} from "./services/GameService";
 import Token from "./Token";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faQuestion, faInbox} from "@fortawesome/free-solid-svg-icons";
+import {faInbox, faQuestion} from "@fortawesome/free-solid-svg-icons";
 
-let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0, dragging = null;
+let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0, dragging = null, draggedPlayer;
 let lastUpdate = 0;
 export default class Board extends React.Component {
 
@@ -30,9 +30,11 @@ export default class Board extends React.Component {
     }
 
     dragStart = (e, player) => {
+
         e = e || window.event;
         e.preventDefault();
         dragging = e.currentTarget;
+        draggedPlayer = player.id;
         // get the mouse cursor position at startup:
         pos3 = e.clientX;
         pos4 = e.clientY;
@@ -63,6 +65,8 @@ export default class Board extends React.Component {
     }
 
     dragStopped = (e, player) => {
+        console.log('no more dragging', draggedPlayer);
+        draggedPlayer = null;
         const y = ("" + dragging.style.left).replace("px", "");
         const x = ("" + dragging.style.top).replace("px", "");
         gameService.setPlayerPosition(player.id, x, y);
@@ -71,7 +75,6 @@ export default class Board extends React.Component {
         document.onmousemove = null;
         lastUpdate = 0;
         gameService.sendToWs('moveFinished', {target: player.name});
-
     }
 
     render() {
@@ -79,11 +82,16 @@ export default class Board extends React.Component {
             const game = this.props.game;
             const players = this.props.game.players.filter(p => p.id !== 1);
             return (<div className="board-container">
-                {players.map(p => <div key={p.id} className="board-token"
-                                       onMouseDown={(e) => this.dragStart(e, p)}
-                                       style={{top: p.x + 'px', left: p.y + 'px'}}>
-                    <Token selected={p.id === gameService.currentPlayer} token={p.token}/>
-                </div>)}
+                {players.map(p => {
+                        const x = dragging && p.id === draggedPlayer ? dragging.style.top : p.x + 'px';
+                        const y = dragging && p.id === draggedPlayer ? dragging.style.left : p.y + 'px';
+                        return <div key={p.id} className="board-token"
+                                    onMouseDown={(e) => this.dragStart(e, p)}
+                                    style={{top: x, left: y}}>
+                            <Token selected={p.id === gameService.currentPlayer} token={p.token}/>
+                        </div>
+                    }
+                )}
                 <div className="dice-set" onClick={this.rollDice}>
                     <Dice diceValue={this.props.game.dice[0]} rolling={this.props.game.rollingDice}/>
                     <Dice diceValue={this.props.game.dice[1]} rolling={this.props.game.rollingDice}/>

@@ -95,7 +95,7 @@ export default class App extends React.Component {
                 </div>
                 {this.state.showHelp && <HelpDialog dismiss={this.hideHelp}/>}
                 {showPlayerDialog && <SelectPlayerDialog game={this.state.game}/>}
-                {card && <div class="card-overlay">
+                {card && <div className="card-overlay">
                     <div className={"card-picked " + card.type}>
                         {<a className="close" onClick={(e) => {
                             this.setState({cardToShow: null});
