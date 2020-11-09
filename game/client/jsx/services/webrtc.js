@@ -24,7 +24,7 @@ export class RTC {
             audio: true,
         };
 
-        if (navigator.mediaDevices.getUserMedia) {
+        if (mavigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia(constraints).then(this.getUserMediaSuccess).catch(this.errorHandler);
         } else {
             alert('Your browser does not support getUserMedia API');
