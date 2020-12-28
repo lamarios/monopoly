@@ -58,7 +58,7 @@ class GameService {
                         title: "Electric Company",
                         type: "electricity",
                         description: "If one Utility is owned, rent is 4 times the amount shown on dice. If both Utilities are owned rent is 10 times amount shown on dice.",
-                        price: "$150",
+                        price: 150,
                         mortgaged: false
                     },
                     {
