@@ -1,3 +1,5 @@
+[![Build Status](https://drone.ftpix.com/api/badges/lamarios/monopoly/status.svg)](https://drone.ftpix.com/lamarios/monopoly)
+
 # Monopoly
 This is an online replica of the famous board game, it also has video and text chat.
 
