@@ -1,0 +1,62 @@
+kind: pipeline
+type: docker
+name: build and publish
+
+steps:
+  - name: build and publish game
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      tags:
+        - latest
+        - '${DRONE_COMMIT}'
+      repo: gonzague/monopoly
+      dockerfile: game/Dockerfile
+      context: game/
+  - name: build and publish manager
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      tags:
+        - latest
+        - '${DRONE_COMMIT}'
+      repo: gonzague/monopoly-manager
+      dockerfile: manager/Dockerfile
+      context: manager/
+
+trigger:
+  branch:
+    - master
+  event:
+    - push
+
+---
+
+kind: pipeline
+type: docker
+name: build
+
+steps:
+  - name: build game
+    image: plugins/docker
+    settings:
+      dockerfile: game/Dockerfile
+      context: game/
+      dry_run: true
+  - name: build manager
+    image: plugins/docker
+    settings:
+      dockerfile: manager/Dockerfile
+      context: manager/
+      dry_run: true
+
+trigger:
+  branch:
+    exclude:
+      - master
