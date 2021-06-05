@@ -33,7 +33,6 @@ export default class App extends React.Component {
 
     connectToGame = () => {
         this.setState({game: null}, () => {
-            gameService.currentPlayer = null;
             const location = window.location;
             let url = location.protocol.replace("http", "ws") + '//' + window.location.hostname + (location.port.length > 0 ? ':' + location.port : "") + location.pathname;
             console.log('connecting to websocket', location, url);

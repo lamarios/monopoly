@@ -142,15 +142,12 @@ export class RTC {
         }
     }
 
-    function
-
-    errorHandler(error) {
+    errorHandler = (error) => {
         console.log(error);
     }
 
 // Taken from http://stackoverflow.com/a/105074/515584
 // Strictly speaking, it's not a real UUID, but it gets the job done here
-    function
 
     createUUID = () => {
         function s4() {
