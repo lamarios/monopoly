@@ -22,6 +22,6 @@
   "homepage": "https://github.com/shanet/WebRTC-Example#readme",
   "dependencies": {
     "node-static": "^0.7.11",
-    "ws": "^3.3.2"
+    "ws": "^5.2.3"
   }
 }
