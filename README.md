@@ -85,7 +85,7 @@ If you're connecting to the docker socket directly, otherwise use the DOCKER_HOS
 docker network create monopoly-network
 docker run -p "8080:8080" -v "/var/run/docker.sock:/var/run/docker.sock:ro' --network="monopoly-network" -e "DOCKER_NETWORK=monopoly-network" gonzague/monopoly-manager
 ```
-Add environment variables from above relevant for your use case
+Add environment variables from above relevant for your use case.
 
 ## Technology used
 
